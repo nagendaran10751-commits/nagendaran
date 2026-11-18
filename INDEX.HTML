@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en" data-vibe="classic">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sri Jothi Tiles Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Cinzel:wght@500;700;900&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;600;800&family=Orbitron:wght@600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one-page app with 8 routes; ivory + maroon + gold heritage base, 3 extra "vibes" (90s, Y2K, Gen Z) swap tokens only. */
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+:root{
+ --bg:#f7f3ec;--bg2:#efe6d3;--surface:#fff;--ink:#1e1417;--muted:#6a5d60;--h:#7b1e2c;--gold:#c79a3b;--gold2:#f0d78c;--teal:#1f6f6b;--line:#e2d8c6;
+ --btn-bg:linear-gradient(135deg,#8f2433,#5a1220);--btn-ink:#fff;--bline:transparent;--btn-shadow:0 10px 22px -10px rgba(90,18,32,.7);
+ --radius:16px;--bw:1px;--shadow:0 12px 32px -14px rgba(60,20,25,.3);--shadow-h:0 26px 48px -18px rgba(60,20,25,.45);
+ --fd:'Fraunces',Georgia,serif;--fh:'Cinzel','Times New Roman',serif;--fb:'Manrope',system-ui,sans-serif;
+ --hero:radial-gradient(900px 500px at 85% 10%,rgba(199,154,59,.28),transparent 60%),radial-gradient(700px 500px at 0% 90%,rgba(123,30,44,.12),transparent 60%);
+ --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);--wipe:cubic-bezier(.77,0,.18,1);
+ --bounce:linear(0,.55 14%,1 28%,.8 40%,1 52%,.94 62%,1 74%,.98 86%,1);
+ color-scheme:light}
+[data-vibe="90s"]{--bg:#fff3b8;--bg2:#ffe36e;--surface:#fff;--ink:#111;--muted:#333;--h:#111;--gold:#00bfb3;--gold2:#ffd400;--teal:#6a3df0;--line:#111;
+ --btn-bg:#ff3ea5;--btn-ink:#111;--bline:#111;--btn-shadow:4px 4px 0 #111;--radius:4px;--bw:3px;--shadow:6px 6px 0 #111;--shadow-h:10px 10px 0 #111;
+ --fd:'Bungee',Impact,sans-serif;--fh:'Bungee',Impact,sans-serif;--hero:repeating-linear-gradient(45deg,rgba(0,0,0,.05) 0 10px,transparent 10px 20px);color-scheme:light}
+[data-vibe="y2k"]{--bg:#e6eeff;--bg2:#d4e0ff;--surface:rgba(255,255,255,.72);--ink:#1a1d3a;--muted:#555b86;--h:#4b2bd1;--gold:#26d4ff;--gold2:#d6f6ff;--teal:#ff4fb8;--line:rgba(255,255,255,.95);
+ --btn-bg:linear-gradient(180deg,#ff8ad3,#ff3fae 50%,#c026d3);--btn-ink:#fff;--bline:rgba(255,255,255,.9);--btn-shadow:inset 0 2px 0 rgba(255,255,255,.7),0 10px 22px -8px rgba(192,38,211,.7);
+ --radius:28px;--shadow:0 12px 30px -10px rgba(120,100,255,.45),inset 0 1px 0 #fff;--shadow-h:0 24px 44px -12px rgba(120,100,255,.6),inset 0 1px 0 #fff;--fd:'Orbitron',system-ui,sans-serif;--fh:'Orbitron',system-ui,sans-serif;
+ --hero:radial-gradient(700px 400px at 80% 0%,rgba(255,79,184,.3),transparent 60%),radial-gradient(700px 500px at 0% 100%,rgba(38,212,255,.35),transparent 60%);color-scheme:light}
+[data-vibe="genz"]{--bg:#0d0a14;--bg2:#161024;--surface:#1a1330;--ink:#f4f0ff;--muted:#b0a6cf;--h:#f4f0ff;--gold:#ff5fa2;--gold2:#c6ff3d;--teal:#22d3ee;--line:#2f2556;
+ --btn-bg:#c6ff3d;--btn-ink:#0d0a14;--bline:transparent;--btn-shadow:0 0 0 1px #0d0a14,0 12px 30px -8px rgba(198,255,61,.45);--radius:26px;--shadow:0 0 0 1px #2f2556,0 22px 44px -22px rgba(139,92,246,.7);--shadow-h:0 0 0 1px #8b5cf6,0 28px 56px -20px rgba(139,92,246,.9);
+ --fd:'Syne',system-ui,sans-serif;--fh:'Syne',system-ui,sans-serif;--hero:radial-gradient(800px 500px at 90% 0%,rgba(139,92,246,.45),transparent 60%),radial-gradient(600px 400px at 0% 100%,rgba(255,95,162,.25),transparent 60%);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--fb);overflow-x:hidden;transition:background .6s var(--ease),color .6s var(--ease)}
+img,svg{max-width:100%}
+h1,h2,h3,h4{font-family:var(--fd);color:var(--h);line-height:1.12;margin:0 0 .5em;text-wrap:balance;font-weight:700}
+h1{font-size:clamp(2.2rem,5.6vw,4.2rem)}h2{font-size:clamp(1.7rem,3.6vw,2.6rem)}h3{font-size:1.15rem}
+[data-vibe="90s"] h1,[data-vibe="90s"] h2,[data-vibe="y2k"] h1,[data-vibe="y2k"] h2{font-weight:400;letter-spacing:.01em}
+[data-vibe="y2k"] h1{font-size:clamp(1.9rem,4.6vw,3.4rem)}[data-vibe="90s"] h1{font-size:clamp(2rem,5vw,3.6rem)}
+p{margin:0 0 1em}a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.sec{padding:clamp(40px,7vw,84px) 0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.eyebrow{font:800 .78rem var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.lead{font-size:1.12rem;color:var(--muted);max-width:56ch}
+.muted{color:var(--muted)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:8px;top:-60px;background:#000;color:#fff;padding:8px 14px;z-index:99999;border-radius:8px}.skip:focus{top:8px}
+/* ===== buttons / micro-interactions ===== */
+.btn{--lift:0px;--sc:1;position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.4rem;border-radius:999px;border:var(--bw) solid var(--bline);background:var(--btn-bg);color:var(--btn-ink);font-weight:800;letter-spacing:.02em;text-decoration:none;box-shadow:var(--btn-shadow);
+ transform:translate(var(--tx,0px),calc(var(--ty,0px) + var(--lift))) scale(var(--sc));transition:transform .4s var(--spring),box-shadow .4s var(--ease),filter .3s}
+.btn:hover{--lift:-3px;filter:brightness(1.08)}.btn:active{--sc:.94;--lift:0px;transition-duration:.12s}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);transition:transform .7s var(--ease)}
+.btn:hover::after{transform:translateX(120%)}
+.btn.ghost{background:transparent;color:var(--h);border:2px solid var(--h);box-shadow:none}
+[data-vibe="genz"] .btn.ghost{border-color:var(--gold2);color:var(--gold2)}
+.btn.sm{padding:.5rem .9rem;font-size:.85rem}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:ripple .65s var(--ease) forwards;pointer-events:none}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+.icon{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:var(--bw) solid var(--line);background:var(--surface);color:var(--h);transition:transform .35s var(--spring),box-shadow .3s}
+.icon:hover{transform:translateY(-2px) rotate(-6deg);box-shadow:var(--shadow)}.icon:active{transform:scale(.88)}
+.icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--gold);color:#111;font:800 .72rem/20px var(--fb);text-align:center;padding:0 5px}
+.badge.bump{animation:bump .5s var(--spring)}
+@keyframes bump{40%{transform:scale(1.6) rotate(8deg)}}
+/* ===== intro ===== */
+#intro{position:fixed;inset:0;z-index:10000;background:#050304;color:#f6dd8f;display:grid;place-items:center;overflow:hidden;transition:opacity 1s var(--ease),visibility 1s}
+#intro.out{opacity:0;visibility:hidden}
+.bar{position:absolute;left:0;right:0;height:14vh;background:#000;z-index:3;animation:barIn 1.2s var(--wipe) both}
+.bar.top{top:0;transform-origin:top}.bar.bot{bottom:0;transform-origin:bottom}
+#intro.out .bar{transform:scaleY(0);transition:transform .9s var(--wipe)}
+@keyframes barIn{from{transform:scaleY(5)}to{transform:scaleY(1)}}
+.grain{position:absolute;inset:-50%;opacity:.14;z-index:2;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain .9s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-6%,-2%)}80%{transform:translate(5%,4%)}100%{transform:translate(0,0)}}
+.intro-core{position:relative;z-index:4;text-align:center;padding:0 16px;display:grid;justify-items:center;gap:14px}
+.intro-core::before{content:"";position:absolute;width:min(90vw,820px);aspect-ratio:2;background:radial-gradient(closest-side,rgba(199,154,59,.28),transparent);animation:glow 6s ease-in-out both;z-index:-1}
+@keyframes glow{0%{opacity:0;transform:scale(.4)}40%{opacity:1}100%{opacity:.6;transform:scale(1.2)}}
+.intro-logo{width:clamp(90px,16vw,140px);filter:drop-shadow(0 0 24px rgba(199,154,59,.6));animation:logoIn 1.6s var(--ease) .5s both}
+@keyframes logoIn{from{opacity:0;transform:scale(.6) rotate(-30deg);filter:blur(12px)}to{opacity:1;transform:none}}
+.presents{font:600 .78rem var(--fh);letter-spacing:.6em;color:#b49a63;animation:fade 1.4s ease 1.4s both;margin:6px 0 0}
+@keyframes fade{from{opacity:0;letter-spacing:1.2em}to{opacity:1}}
+.intro-title{margin:0;font-family:var(--fh);font-weight:900;color:transparent;display:grid;gap:6px;justify-items:center}
+.intro-title .l1{font-size:clamp(2.4rem,11vw,7rem);letter-spacing:.14em}
+.intro-title .l2{font-size:clamp(1rem,4.4vw,2.2rem);letter-spacing:.7em;margin-right:-.7em}
+.intro-title span span{display:inline-block;background:linear-gradient(180deg,#fff7d6,#e9c35c 45%,#9b6d1c);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;animation:letter 1.1s var(--ease) both;animation-delay:calc(2s + var(--i)*70ms)}
+@keyframes letter{from{opacity:0;filter:blur(18px);transform:translateY(40px) scale(1.6)}to{opacity:1;filter:blur(0);transform:none}}
+.flare{width:min(70vw,560px);height:2px;background:linear-gradient(90deg,transparent,#fff7d6,transparent);box-shadow:0 0 24px 6px rgba(240,215,140,.7);animation:flare 1.6s var(--wipe) 3.2s both}
+@keyframes flare{from{transform:scaleX(0);opacity:0}50%{opacity:1}to{transform:scaleX(1);opacity:.5}}
+.intro-tag{font:600 .9rem var(--fb);letter-spacing:.4em;text-transform:uppercase;color:#d8c389;animation:fade 1.6s ease 3.8s both;margin:0}
+#skip{position:absolute;right:20px;bottom:calc(14vh + 14px);z-index:5;background:none;border:1px solid rgba(246,221,143,.4);color:#f6dd8f;padding:.45rem 1rem;border-radius:999px;font-weight:700;transition:background .3s,transform .3s var(--spring)}
+#skip:hover{background:rgba(246,221,143,.15)}#skip:active{transform:scale(.92)}
+/* ===== header ===== */
+.hdr{position:sticky;top:0;z-index:900;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:var(--bw) solid var(--line);view-transition-name:hdr}
+.hdr-in{display:flex;align-items:center;gap:16px;min-height:72px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
+.mark{width:46px;height:46px;transition:transform .8s var(--spring)}.brand:hover .mark{transform:rotate(180deg) scale(1.08)}
+.bn{display:grid;line-height:1}.bn b{font:900 1.15rem var(--fh);letter-spacing:.14em;color:var(--h)}.bn i{font:600 .62rem var(--fh);letter-spacing:.45em;color:var(--gold);font-style:normal;margin-top:4px}
+#nav{display:flex;gap:2px}
+#nav a{position:relative;padding:.5rem .8rem;border-radius:999px;text-decoration:none;font-weight:700;font-size:.9rem;transition:color .3s,background .3s}
+#nav a::after{content:"";position:absolute;left:.8rem;right:.8rem;bottom:2px;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+#nav a:hover::after,#nav a[aria-current="page"]::after{transform:scaleX(1)}
+#nav a[aria-current="page"]{color:var(--h)}
+.hdr-act{display:flex;gap:8px;align-items:center}
+.burger{display:none}
+@media(max-width:1060px){.burger{display:inline-grid}#nav{position:fixed;inset:72px 0 auto 0;flex-direction:column;background:var(--bg);padding:12px 16px 20px;border-bottom:var(--bw) solid var(--line);transform:translateY(-130%);transition:transform .6s var(--ease);z-index:-1}
+ #nav.open{transform:none}#nav a{padding:.8rem 1rem;font-size:1.05rem}}
+/* ===== reveal / keyframes ===== */
+.rv{animation:rise .85s var(--ease) both;animation-delay:calc(var(--i,0)*70ms)}
+@keyframes rise{from{opacity:0;transform:translateY(34px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes floatY{0%,100%{translate:0 0}50%{translate:0 -14px}}
+@keyframes shine{to{background-position:200% 0}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes ang{to{--ang:360deg}}
+@keyframes pop{40%{transform:scale(1.5)}70%{transform:scale(.85)}}
+@keyframes type{from{width:0}}
+@keyframes flicker{0%,100%{transform:scaleY(1) skewX(0)}30%{transform:scaleY(1.06) skewX(2deg)}60%{transform:scaleY(.95) skewX(-2deg)}}
+.page[hidden]{display:none}
+/* vertical parallax + mouse parallax helpers */
+.par{transform:translate3d(calc(var(--mx,0)*var(--d,0)*1px),calc(var(--my,0)*var(--d,0)*1px + var(--sy,0)*var(--k,0)*-1px),0)}
+/* view transition (page transition) */
+::view-transition-old(root){animation:vt-out .7s var(--wipe) both}
+::view-transition-new(root){animation:vt-in .85s var(--wipe) both}
+@keyframes vt-in{from{clip-path:circle(0% at var(--vx,50%) var(--vy,20%))}to{clip-path:circle(150% at var(--vx,50%) var(--vy,20%))}}
+@keyframes vt-out{to{opacity:.35;transform:scale(.97)}}
+::view-transition-group(hdr){animation-duration:0s}
+/* ===== hero ===== */
+.hero{background:var(--hero);overflow:hidden}
+.hero-in{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:clamp(34px,6vw,76px) 0}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--gold) 20%,var(--h) 45%,var(--gold) 70%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:1.4rem 0 1.8rem}
+.stats{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,auto);gap:10px 26px;justify-content:start}
+.stats b{display:block;font:700 2rem/1 var(--fd);color:var(--h)}.stats span{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.hero-art{position:relative;aspect-ratio:1;max-width:520px;width:100%;margin-inline:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;transform:rotate(-6deg)}
+.ht{border-radius:var(--radius);border:var(--bw) solid var(--line);box-shadow:var(--shadow);background-size:cover;animation:floatY 6s ease-in-out infinite;animation-delay:calc(var(--i)*-.7s);transition:transform .6s var(--spring),filter .4s}
+.ht:hover{transform:scale(1.14) rotate(8deg);filter:saturate(1.3);z-index:2}
+.ticker{overflow:hidden;border-block:var(--bw) solid var(--line);background:var(--h);color:var(--bg);padding:.7rem 0;white-space:nowrap}
+[data-vibe="genz"] .ticker{background:var(--gold2);color:#0d0a14}[data-vibe="90s"] .ticker{background:#111;color:var(--gold2)}
+.track{display:inline-flex;gap:2.4rem;animation:marquee 60s linear infinite;font:800 .85rem var(--fb);letter-spacing:.22em;text-transform:uppercase}
+.ticker:hover .track{animation-play-state:paused}.track span::before{content:"◆";color:var(--gold2);margin-right:2.4rem}
+/* ===== cards ===== */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.card{position:relative;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+ transition:transform .5s var(--ease),box-shadow .5s var(--ease);transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.card:hover{box-shadow:var(--shadow-h)}
+.card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(260px circle at var(--px,50%) var(--py,50%),rgba(255,255,255,.28),transparent 60%);z-index:3}
+.card:hover::before{opacity:1}
+.style-card{display:block;text-decoration:none;aspect-ratio:1;border:0;padding:0;text-align:left}
+.style-card .bgi{position:absolute;inset:0;background-size:cover;transition:transform .9s var(--ease)}
+.style-card:hover .bgi{transform:scale(1.18) rotate(3deg)}
+.style-card span{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;color:#fff;font:700 1rem var(--fd);background:linear-gradient(transparent,rgba(0,0,0,.78))}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tool{padding:26px;display:grid;gap:8px;align-content:start;min-height:230px;text-decoration:none;cursor:pointer}
+.tool .gl{width:100%;height:100px;border-radius:calc(var(--radius) - 4px);background-size:70px;margin-bottom:6px;transition:background-position 1.2s var(--ease),transform .6s var(--spring)}
+.tool:hover .gl{background-position:70px 70px;transform:scale(1.03)}
+.tool .btn{justify-self:start}
+.glow{--ang:0deg;position:relative}
+.glow::after{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:conic-gradient(from var(--ang),var(--gold),transparent 30%,var(--h),transparent 70%,var(--gold));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ang 5s linear infinite;pointer-events:none;opacity:.8}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s}
+.step{padding:20px;counter-increment:s}.step::before{content:counter(s,decimal-leading-zero);font:900 2.2rem var(--fh);color:var(--gold);display:block;line-height:1;margin-bottom:8px;transition:transform .5s var(--spring)}
+.step:hover::before{transform:scale(1.25) rotate(-6deg)}
+.step p{font-size:.92rem;color:var(--muted);margin:0}
+/* ===== shop ===== */
+.page-head{padding:clamp(30px,5vw,56px) 0 10px}
+.bar-f{display:grid;grid-template-columns:2fr repeat(5,1fr);gap:10px;margin:18px 0 12px}
+.fld{display:grid;gap:4px}.fld label{font:800 .75rem var(--fb);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+input,select,textarea{width:100%;padding:.7rem .85rem;border-radius:calc(var(--radius) - 4px);border:var(--bw) solid var(--line);background:var(--surface);transition:box-shadow .3s,border-color .3s,transform .3s var(--spring)}
+[data-vibe="90s"] input,[data-vibe="90s"] select,[data-vibe="90s"] textarea{border-width:3px;border-color:#111}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 30%,transparent);transform:translateY(-1px)}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#d93a3a;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.err{color:#d93a3a;font-weight:700;font-size:.78rem;min-height:1em}
+input[type=range]{padding:0;accent-color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px}
+.chip{padding:.4rem .9rem;border-radius:999px;border:var(--bw) solid var(--line);background:var(--surface);font-weight:700;font-size:.85rem;transition:transform .35s var(--spring),background .3s,color .3s}
+.chip:hover{transform:translateY(-2px)}.chip:active{transform:scale(.92)}
+.chip[aria-pressed="true"]{background:var(--h);color:var(--bg);border-color:var(--h)}
+[data-vibe="genz"] .chip[aria-pressed="true"]{background:var(--gold2);color:#0d0a14}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.prod{content-visibility:auto;contain-intrinsic-size:auto 420px}
+.pimg{position:relative;aspect-ratio:1;background-size:cover;overflow:hidden;transition:background-size .8s var(--ease)}
+.pimg::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.4) 50%,transparent 60%);transform:translateX(-110%);transition:transform .9s var(--ease)}
+.prod:hover .pimg::after{transform:translateX(110%)}.prod:hover .pimg{background-size:130%}
+.tag{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;font:700 .7rem var(--fb);padding:.2rem .6rem;border-radius:999px;backdrop-filter:blur(4px)}
+.heart{position:absolute;right:10px;top:10px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#555;display:grid;place-items:center;z-index:4;transition:transform .3s var(--spring)}
+.heart svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}.heart:hover{transform:scale(1.12)}.heart:active{transform:scale(.85)}
+.heart.on{color:#e0245e}.heart.on svg{fill:currentColor}.heart.pop{animation:pop .5s var(--spring)}
+.pbody{padding:14px;display:grid;gap:8px}.pbody h3{margin:0}.meta{font-size:.82rem;color:var(--muted);margin:0}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.price{font:800 1.25rem var(--fd);color:var(--h)}.price small{font:600 .72rem var(--fb);color:var(--muted)}
+.pact{display:flex;gap:6px}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+/* ===== visualizer ===== */
+.vz{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start}
+#roomHost{position:relative;border-radius:var(--radius);overflow:hidden;border:var(--bw) solid var(--line);box-shadow:var(--shadow);background:#222}
+#roomInner{position:absolute;left:0;top:0;width:800px;height:500px;transform-origin:0 0;overflow:hidden;background-size:cover;background-position:center}
+#roomWall{position:absolute;left:0;right:0;top:0;height:290px;background-color:#e9e2d4;transition:background-size .5s var(--ease)}
+#roomWall::after,#roomFloor::after{content:"";position:absolute;inset:0;pointer-events:none}
+#roomWall::after{background:linear-gradient(90deg,rgba(255,240,200,.28),transparent 45%,rgba(0,0,0,.2))}
+#roomFloorWrap{position:absolute;left:0;right:0;top:290px;bottom:0;overflow:hidden;perspective:500px;perspective-origin:50% 0}
+#roomFloor{position:absolute;left:0;right:0;top:0;height:300px;transform-origin:50% 0;transform:rotateX(65deg);background-color:#cfc6b4;transition:background-size .5s var(--ease)}
+#roomFloor::after{background:linear-gradient(180deg,rgba(30,20,10,.55),transparent 45%)}
+#roomFurn{position:absolute;inset:0;width:800px;height:500px}
+#roomInner.photo #roomWall,#roomInner.photo #roomFurn{display:none}
+#roomInner.photo #roomFloorWrap{mix-blend-mode:multiply;opacity:.92}
+#roomInner.sky #roomWall{background:linear-gradient(#7fc4ff,#d9efff 70%,#bfe3a8 71%)!important;background-size:auto!important}
+.fade-room{animation:roomIn .8s var(--ease)}
+@keyframes roomIn{from{opacity:0;transform:scale(1.04);filter:blur(6px)}}
+.ctl{display:grid;gap:14px;padding:18px;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.sw{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;max-height:176px;overflow:auto;padding:4px}
+.sw button{aspect-ratio:1;border-radius:10px;border:3px solid transparent;background-size:cover;padding:0;transition:transform .35s var(--spring),border-color .3s}
+.sw button:hover{transform:scale(1.15) rotate(3deg);z-index:2}.sw button[aria-pressed="true"]{border-color:var(--gold);transform:scale(1.08)}
+.upl{border:2px dashed var(--line);border-radius:12px;padding:12px;font-size:.88rem;color:var(--muted)}
+/* ===== calculator ===== */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.panel{padding:22px;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);display:grid;gap:14px;align-content:start}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res div{padding:14px;border-radius:12px;background:var(--bg2);transition:transform .4s var(--spring)}.res div:hover{transform:translateY(-3px)}
+.res b{display:block;font:700 1.7rem/1.1 var(--fd);color:var(--h);font-variant-numeric:tabular-nums}.res span{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.res .big{grid-column:1/-1;background:var(--btn-bg);}.res .big b,.res .big span{color:var(--btn-ink)}
+.num-pop{animation:pop .45s var(--spring)}
+#cPrev{width:100%;max-height:300px;border:var(--bw) solid var(--line);border-radius:10px;background-color:var(--bg2);box-shadow:inset 0 0 0 3px var(--surface)}
+/* ===== gallery / panorama ===== */
+.mas{columns:4 220px;column-gap:16px}
+.mas .card{break-inside:avoid;margin-bottom:16px;padding:0;border:0;display:block;width:100%;text-align:left}
+.mas .gi{display:block;background-size:cover;transition:transform 1s var(--ease)}
+.mas .card:hover .gi{transform:scale(1.15) rotate(2deg)}
+.mas .cap{position:absolute;left:0;right:0;bottom:0;padding:30px 12px 10px;color:#fff;font:700 .9rem var(--fd);background:linear-gradient(transparent,rgba(0,0,0,.8));transform:translateY(100%);transition:transform .5s var(--ease)}
+.mas .card:hover .cap,.mas .card:focus-visible .cap{transform:none}
+#panoView{position:relative;height:clamp(260px,52vw,460px);border-radius:var(--radius);overflow:hidden;cursor:grab;touch-action:pan-y;background-repeat:repeat-x;box-shadow:var(--shadow);border:var(--bw) solid var(--line);user-select:none;background-color:#222}
+#panoView:active{cursor:grabbing}
+.compass{position:absolute;right:14px;top:14px;width:66px;height:66px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;font:800 .7rem var(--fb);backdrop-filter:blur(6px)}
+.compass i{position:absolute;inset:6px;border-radius:50%;border:2px solid rgba(255,255,255,.35);transition:transform .1s linear}
+.compass i::before{content:"N";position:absolute;top:-9px;left:50%;translate:-50% 0;background:#c0392b;border-radius:50%;width:16px;height:16px;display:grid;place-items:center;font-size:.6rem}
+.hint{position:absolute;left:50%;bottom:14px;translate:-50% 0;background:rgba(0,0,0,.6);color:#fff;padding:.35rem .9rem;border-radius:999px;font-size:.8rem;pointer-events:none;animation:fade 1s 1s both}
+/* ===== about / contact / footer ===== */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.biglogo{width:min(260px,70%);margin-inline:auto;display:block;animation:floatY 5s ease-in-out infinite}
+.info{display:grid;gap:12px}.info .card{padding:16px 18px;display:grid;gap:2px}.info b{font:800 .75rem var(--fb);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.info a{font-weight:700}
+.enq{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:22px;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.enq .full,.enq .btn,.enq-ok{grid-column:1/-1}
+.enq-ok{padding:14px;border-radius:12px;background:color-mix(in srgb,var(--teal) 16%,transparent);display:grid;gap:10px;animation:rise .6s var(--ease)}
+footer{margin-top:60px;background:#1a0d11;color:#e9dcc0;padding:44px 0 90px}
+footer a{color:#f0d78c}footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
+footer small{opacity:.7}
+.linklike{background:none;border:0;color:#f0d78c;text-decoration:underline;padding:0}
+/* ===== overlays ===== */
+#scrim{position:fixed;inset:0;background:rgba(10,5,8,.55);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;z-index:1500}
+#scrim.on{opacity:1;visibility:visible}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--bg);z-index:1600;border-left:var(--bw) solid var(--line);transform:translateX(105%);transition:transform .6s var(--ease);display:flex;flex-direction:column}
+#drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:var(--bw) solid var(--line)}.dh h3{margin:0}
+#drawerBody{padding:16px 18px;overflow:auto;flex:1;display:grid;gap:12px;align-content:start}
+.line{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:10px;border:var(--bw) solid var(--line);border-radius:12px;background:var(--surface);animation:rise .5s var(--ease) both}
+.line .th{width:64px;height:64px;border-radius:10px;background-size:cover}
+.qty{display:inline-flex;align-items:center;gap:6px}.qty button{width:28px;height:28px;border-radius:50%;border:var(--bw) solid var(--line);background:var(--surface);font-weight:800;transition:transform .25s var(--spring)}.qty button:active{transform:scale(.8)}
+.sum{display:flex;justify-content:space-between;font:800 1.2rem var(--fd);padding-top:8px;border-top:2px dashed var(--line)}
+#modal{position:fixed;inset:0;z-index:1700;display:grid;place-items:center;padding:16px;pointer-events:none;visibility:hidden}
+#modal.on{pointer-events:auto;visibility:visible}
+#modalBox{width:min(640px,100%);max-height:92vh;overflow:auto;background:var(--bg);border:var(--bw) solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-h);transform:scale(.85) translateY(30px);opacity:0;transition:transform .55s var(--spring),opacity .3s;position:relative}
+#modal.on #modalBox{transform:none;opacity:1}
+#modalX{position:absolute;right:12px;top:12px}
+.lb{display:grid;gap:12px}.lb .big{aspect-ratio:1;border-radius:12px;background-size:cover}
+#toast{position:fixed;left:50%;bottom:92px;translate:-50% 0;z-index:2000;background:#111;color:#fff;padding:.7rem 1.2rem;border-radius:999px;font-weight:700;display:flex;gap:8px;align-items:center;transform:translateY(40px);opacity:0;transition:transform .5s var(--spring),opacity .3s;pointer-events:none}
+#toast.on{transform:none;opacity:1}#toast svg{width:18px;stroke:#7dffb1;fill:none;stroke-width:3;stroke-dasharray:30;animation:draw .6s .1s both}
+@keyframes draw{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}
+.fab{position:fixed;right:16px;z-index:1400;display:grid;place-items:center;border-radius:999px;border:0;font-weight:800;text-decoration:none;box-shadow:0 12px 24px -8px rgba(0,0,0,.5);transition:transform .4s var(--spring)}
+.fab:hover{transform:scale(1.1) rotate(-4deg)}.fab:active{transform:scale(.9)}
+#waFab{bottom:16px;width:56px;height:56px;background:#25d366;color:#fff}#waFab svg{width:30px;fill:#fff}
+#enqFab{bottom:84px;padding:.7rem 1.1rem;background:var(--h);color:var(--bg);font-size:.85rem}
+[data-vibe="genz"] #enqFab{background:var(--gold2);color:#0d0a14}
+#waFab::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:ping 2.4s ease-out infinite}
+@keyframes ping{to{transform:scale(1.7);opacity:0}}
+#cur,#ring{position:fixed;left:0;top:0;pointer-events:none;z-index:99999;border-radius:50%;display:none}
+#cur{width:8px;height:8px;background:var(--gold);margin:-4px 0 0 -4px}
+#ring{width:38px;height:38px;border:2px solid var(--gold);margin:-19px 0 0 -19px;transition:width .35s var(--spring),height .35s var(--spring),margin .35s var(--spring),border-radius .35s,background .3s,rotate .35s}
+#ring.hot{width:60px;height:60px;margin:-30px 0 0 -30px;background:color-mix(in srgb,var(--gold) 22%,transparent);border-radius:12px;rotate:45deg}
+#ring.down{width:26px;height:26px;margin:-13px 0 0 -13px}
+@media(pointer:fine){body.has-cur #cur,body.has-cur #ring{display:block}}
+@media(max-width:900px){.hero-in,.vz,.calc,.two,.bento{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.bar-f{grid-template-columns:1fr 1fr}.bar-f .fld:first-child{grid-column:1/-1}.stats{grid-template-columns:repeat(2,auto)}footer .cols{grid-template-columns:1fr}.enq,.row2{grid-template-columns:1fr}.hero-art{max-width:340px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}#intro{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+ <defs>
+  <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe8a6"/><stop offset=".5" stop-color="#c79a3b"/><stop offset="1" stop-color="#8a6417"/></linearGradient>
+  <linearGradient id="gMar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a2838"/><stop offset="1" stop-color="#4a0e18"/></linearGradient>
+  <linearGradient id="gFlame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#f3c04a"/><stop offset="1" stop-color="#d9822b"/></linearGradient>
+ </defs>
+ <symbol id="logo-mark" viewBox="0 0 120 120">
+  <rect x="20" y="20" width="80" height="80" rx="5" transform="rotate(45 60 60)" fill="url(#gMar)" stroke="url(#gGold)" stroke-width="3"/>
+  <rect x="20" y="20" width="80" height="80" rx="5" fill="url(#gMar)" stroke="url(#gGold)" stroke-width="3"/>
+  <circle cx="60" cy="60" r="33" fill="#2a0a10" stroke="url(#gGold)" stroke-width="2"/>
+  <g fill="url(#gGold)"><ellipse cx="60" cy="33.5" rx="3" ry="4.5"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(45 60 60)"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(90 60 60)"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(135 60 60)"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(180 60 60)"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(225 60 60)"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(270 60 60)"/><ellipse cx="60" cy="33.5" rx="3" ry="4.5" transform="rotate(315 60 60)"/></g>
+  <g transform="translate(60 61) scale(.82) translate(-60 -60)"><path d="M60 36C67 47 74 52 74 63C74 72 68 79 60 79C52 79 46 72 46 63C46 55 52 51 55 43C57 46 58 48 60 36Z" fill="url(#gFlame)"/><path d="M60 54C64 60 67 62 67 67C67 71 64 74 60 74C56 74 53 71 53 67C53 63 57 60 60 54Z" fill="#fffbe6" opacity=".92"/></g>
+ </symbol>
+</svg>
+
+<!-- INTRO -->
+<div id="intro" role="presentation">
+ <div class="bar top"></div><div class="bar bot"></div><div class="grain"></div>
+ <div class="intro-core">
+  <svg class="intro-logo" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"/></svg>
+  <p class="presents">ATHANGUDI · TAMIL NADU</p>
+  <h1 class="intro-title" aria-label="Sri Jothi Tiles Work"><span class="l1" data-split="SRI JOTHI"></span><span class="l2" data-split="TILES WORK"></span></h1>
+  <div class="flare"></div>
+  <p class="intro-tag">Floors with a story</p>
+ </div>
+ <button id="skip" type="button">Skip intro ▸</button>
+</div>
+
+<header class="hdr" id="hdr"><div class="wrap hdr-in">
+ <a href="#home" class="brand" data-go="home" aria-label="Sri Jothi Tiles Work home"><svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"/></svg><span class="bn"><b>SRI JOTHI</b><i>TILES WORK</i></span></a>
+ <nav id="nav" aria-label="Main">
+  <a href="#home" data-go="home">Home</a><a href="#shop" data-go="shop">Shop</a><a href="#demo-room" data-go="demo-room">Demo Room</a><a href="#calculator" data-go="calculator">Calculator</a><a href="#gallery" data-go="gallery">Gallery</a><a href="#panorama" data-go="panorama">360° View</a><a href="#about" data-go="about">About</a><a href="#contact" data-go="contact">Contact</a>
+ </nav>
+ <div class="hdr-act">
+  <button class="icon" id="vibeBtn" type="button" aria-label="Change look: Classic" title="Change look"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.6-.8 1.3-1.7-.3-1 .2-1.8 1.2-1.8H17a4 4 0 0 0 4-4c0-5-4-10.5-9-10.5z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></button>
+  <button class="icon" id="cartBtn" type="button" aria-label="Open cart"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg><span class="badge" id="cartN">0</span></button>
+  <button class="icon burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+ </div>
+</div></header>
+
+<main id="main">
+<!-- HOME -->
+<section class="page" id="page-home">
+ <div class="hero"><div class="wrap hero-in" id="heroIn">
+  <div>
+   <p class="eyebrow rv" style="--i:0">Athangudi · Tamil Nadu</p>
+   <h1 class="rv" style="--i:1">Floors with a story, <em>handmade</em> in Athangudi.</h1>
+   <p class="lead rv" style="--i:2">Sri Jothi Tiles Work brings you Athangudi tiles and a wide range of floor, wall, bathroom, kitchen and outdoor tiles. Pick a design, see it in a room, work out how many tiles you need, and order.</p>
+   <div class="cta rv" style="--i:3"><a class="btn mag" href="#shop" data-go="shop">Shop tiles</a><a class="btn ghost mag" href="#demo-room" data-go="demo-room">Try the demo room</a></div>
+   <ul class="stats rv" style="--i:4"><li><b data-count="styles">0</b><span>Tile styles</span></li><li><b data-count="sizes">0</b><span>Sizes</span></li><li><b data-count="areas">0</b><span>Areas</span></li><li><b data-count="types">0</b><span>Tile types</span></li></ul>
+  </div>
+  <div class="hero-art rv" id="heroArt" aria-hidden="true" style="--i:2"></div>
+ </div></div>
+ <div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
+ <section class="wrap sec"><p class="eyebrow">Browse</p><h2>Shop by style</h2><div class="cards" id="homeStyles"></div></section>
+ <section class="wrap sec" style="padding-top:0"><p class="eyebrow">Plan before you buy</p><h2>Three tools, one decision</h2>
+  <div class="bento">
+   <a class="card tool tilt glow" href="#demo-room" data-go="demo-room"><div class="gl" data-art="1"></div><h3>Demo room</h3><p class="muted">No photo of your room? Walk into ours. Swap tiles on the floor and walls and switch between five rooms.</p><span class="btn sm">Open demo room</span></a>
+   <a class="card tool tilt glow" href="#calculator" data-go="calculator"><div class="gl" data-art="2"></div><h3>Tile calculator</h3><p class="muted">Enter room size, pick any of 22 tile sizes, add wastage. Get tiles, boxes and cost.</p><span class="btn sm">Calculate tiles</span></a>
+   <a class="card tool tilt glow" href="#panorama" data-go="panorama"><div class="gl" data-art="3"></div><h3>360° view</h3><p class="muted">Drag around a showroom hall laid with your chosen tile, or load your own 360° photo.</p><span class="btn sm">Look around</span></a>
+  </div></section>
+ <section class="wrap sec" style="padding-top:0"><p class="eyebrow">Tradition</p><h2>How an Athangudi tile is made</h2>
+  <div class="steps">
+   <div class="card step tilt"><h3>Glass base</h3><p>The tile is cast face down on a glass plate, which gives the surface its smooth, glossy finish.</p></div>
+   <div class="card step tilt"><h3>Colour layer</h3><p>Cement mixed with oxide pigments is poured inside a mould frame to draw the pattern.</p></div>
+   <div class="card step tilt"><h3>Dry mix</h3><p>Dry cement and fine sand are dusted on top to take up the moisture.</p></div>
+   <div class="card step tilt"><h3>Backing layer</h3><p>A sand and cement layer goes over it. This gives the tile its body and strength.</p></div>
+   <div class="card step tilt"><h3>Cure and dry</h3><p>The tile is lifted, cured in water and dried before it is ready for your floor.</p></div>
+  </div></section>
+</section>
+
+<!-- SHOP -->
+<section class="page" id="page-shop" hidden><div class="wrap">
+ <div class="page-head"><p class="eyebrow">Shop</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">Tile collection</h1><p class="lead">Filter by style, type, area and size. Prices are per square foot and are sample prices for now. Call the shop for the latest rate.</p></div>
+ <div class="bar-f">
+  <div class="fld"><label for="shopQ">Search</label><input id="shopQ" type="search" placeholder="Try marble, royal, hexagonal"></div>
+  <div class="fld"><label for="shopStyle">Style</label><select id="shopStyle"></select></div>
+  <div class="fld"><label for="shopType">Type</label><select id="shopType"></select></div>
+  <div class="fld"><label for="shopArea">Area</label><select id="shopArea"></select></div>
+  <div class="fld"><label for="shopSize">Size</label><select id="shopSize"></select></div>
+  <div class="fld"><label for="shopSort">Sort</label><select id="shopSort"><option value="f">Featured</option><option value="lh">Price: low to high</option><option value="hl">Price: high to low</option><option value="az">Name A to Z</option></select></div>
+ </div>
+ <div class="chips" id="shopChips" role="group" aria-label="Quick areas"></div>
+ <p class="muted" id="shopCount" aria-live="polite"></p>
+ <div class="grid" id="shopGrid"></div>
+</div></section>
+
+<!-- DEMO ROOM -->
+<section class="page" id="page-demo-room" hidden><div class="wrap">
+ <div class="page-head"><p class="eyebrow">Demo room</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">See the tile in a room</h1><p class="lead">No picture of your room? Use our demo rooms instead. Change the room, pick a tile, and choose whether it goes on the floor, the wall or both.</p></div>
+ <div class="vz">
+  <div><div id="roomHost" role="img" aria-label="Room preview"><div id="roomInner"><div id="roomWall"></div><div id="roomFloorWrap"><div id="roomFloor"></div></div><svg id="roomFurn" viewBox="0 0 800 500"></svg></div></div>
+   <p class="muted" style="margin-top:10px" id="vzName"></p></div>
+  <div class="ctl">
+   <div><div class="eyebrow" style="margin:0 0 6px">Change room</div><div class="tabs" id="roomTabs"></div></div>
+   <div><div class="eyebrow" style="margin:0 0 6px">Apply tile to</div><div class="tabs" id="vzApply"></div></div>
+   <div class="fld"><label for="vzSize">Tile size on screen</label><input id="vzSize" type="range" min="40" max="220" value="100"></div>
+   <div><div class="eyebrow" style="margin:0 0 6px">Choose tile</div><div class="sw" id="vzTiles"></div></div>
+   <div class="upl"><label for="vzUpload"><b>Have a room photo?</b> Add it and the tile is laid on the floor area.</label><input id="vzUpload" type="file" accept="image/*"><div class="fld" id="vzLineWrap" hidden style="margin-top:8px"><label for="vzLine">Floor line (where the floor starts)</label><input id="vzLine" type="range" min="25" max="85" value="58"></div><button class="btn sm ghost" id="vzDemo" type="button" hidden style="margin-top:8px">Back to demo room</button></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn mag" id="vzAdd" type="button">Add to cart</button><button class="btn ghost" id="vzEnq" type="button">Ask about this tile</button></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- CALCULATOR -->
+<section class="page" id="page-calculator" hidden><div class="wrap">
+ <div class="page-head"><p class="eyebrow">Tile calculator</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">How many tiles do I need?</h1><p class="lead">Enter your room size and pick a tile size. We add wastage for cuts and breakage.</p></div>
+ <div class="calc">
+  <form class="panel" id="calcForm" onsubmit="return false">
+   <div class="row2"><div class="fld"><label for="cLen">Room length</label><input id="cLen" type="number" min="0" step="any" value="12" inputmode="decimal"></div><div class="fld"><label for="cWid">Room width</label><input id="cWid" type="number" min="0" step="any" value="10" inputmode="decimal"></div></div>
+   <div class="row2"><div class="fld"><label for="cUnit">Unit</label><select id="cUnit"><option value="ft">Feet</option><option value="m">Metres</option><option value="in">Inches</option><option value="cm">Centimetres</option></select></div><div class="fld"><label for="cDed">Skip area, doors and windows (sq ft)</label><input id="cDed" type="number" min="0" step="any" value="0" inputmode="decimal"></div></div>
+   <div class="fld"><label for="cSize">Tile size</label><select id="cSize"></select></div>
+   <div class="row2"><div class="fld"><label for="cWaste">Wastage %</label><input id="cWaste" type="number" min="0" max="50" step="1" value="10" inputmode="decimal"></div><div class="fld"><label for="cBox">Tiles per box (optional)</label><input id="cBox" type="number" min="0" step="1" value="4" inputmode="numeric"></div></div>
+   <div class="fld"><label for="cProd">Tile design (for preview and price)</label><select id="cProd"></select></div>
+   <div class="fld"><label for="cPrice">Price per sq ft (₹)</label><input id="cPrice" type="number" min="0" step="any" inputmode="decimal"></div>
+  </form>
+  <div class="panel">
+   <div class="res" id="cRes" aria-live="polite"></div>
+   <div id="cPrev" role="img" aria-label="Tile layout preview"></div>
+   <p class="muted" style="margin:0;font-size:.82rem" id="cNote"></p>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn mag" id="cAdd" type="button">Add to cart</button><button class="btn ghost" id="cEnq" type="button">Send this to the shop</button></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- GALLERY -->
+<section class="page" id="page-gallery" hidden><div class="wrap">
+ <div class="page-head"><p class="eyebrow">Gallery</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">Patterns and finishes</h1><p class="lead">Tap any tile for a closer look.</p></div>
+ <div class="chips" id="galChips" role="group" aria-label="Gallery filter"></div>
+ <div class="mas" id="galGrid"></div>
+</div></section>
+
+<!-- PANORAMA -->
+<section class="page" id="page-panorama" hidden><div class="wrap">
+ <div class="page-head"><p class="eyebrow">360° view</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">Look around the showroom</h1><p class="lead">Drag to look around, or use the arrow keys. Change the tile and the hall is relaid. You can also load your own 360° photo.</p></div>
+ <div id="panoView" tabindex="0" role="img" aria-label="360 degree showroom view"><div class="compass"><i id="compass"></i><span id="panoDeg">0°</span></div><div class="hint">Drag to look around</div></div>
+ <div class="ctl" style="margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));align-items:end">
+  <div class="fld"><label for="panoTile">Floor and wall tile</label><select id="panoTile"></select></div>
+  <div class="fld"><label for="panoZoom">Zoom</label><input id="panoZoom" type="range" min="100" max="220" value="100"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="panoAuto" type="button" aria-pressed="true">Auto turn: on</button><button class="btn sm ghost" id="panoReset" type="button">Use showroom</button></div>
+  <div class="fld"><label for="panoUpload">Your 360° photo (wide, equirectangular)</label><input id="panoUpload" type="file" accept="image/*"></div>
+ </div>
+</div></section>
+
+<!-- ABOUT -->
+<section class="page" id="page-about" hidden><div class="wrap sec">
+ <div class="two">
+  <div><p class="eyebrow">About us</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">Sri Jothi Tiles Work, Athangudi</h1>
+   <p class="lead">We work with tiles from the home of Athangudi tiles. Our catalog covers handmade Athangudi designs as well as vitrified, ceramic, porcelain, stone and designer tiles for every part of the house.</p>
+   <p class="muted">Visit us in Athangudi, call us, or send an enquiry. We help you choose the design, size and quantity.</p>
+   <div class="cta"><a class="btn mag" href="#contact" data-go="contact">Contact us</a><button class="btn ghost" id="copyLogo" type="button">Copy logo SVG</button></div></div>
+  <div><svg class="biglogo" viewBox="0 0 120 120" role="img" aria-label="Sri Jothi Tiles Work logo"><use href="#logo-mark"/></svg><p style="text-align:center;font:900 1.4rem var(--fh);letter-spacing:.18em;color:var(--h);margin:12px 0 0">SRI JOTHI</p><p style="text-align:center;font:600 .8rem var(--fh);letter-spacing:.5em;color:var(--gold);margin:0">TILES WORK</p></div>
+ </div>
+</div></section>
+
+<!-- CONTACT -->
+<section class="page" id="page-contact" hidden><div class="wrap sec">
+ <p class="eyebrow">Contact</p><h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">Talk to Sri Jothi Tiles Work</h1>
+ <div class="two" style="align-items:start;margin-top:20px">
+  <div class="info" id="contactInfo"></div>
+  <div id="cForm"></div>
+ </div>
+</div></section>
+</main>
+
+<footer><div class="wrap cols">
+ <div><div style="display:flex;gap:10px;align-items:center"><svg width="48" height="48" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"/></svg><b style="font:900 1.2rem var(--fh);letter-spacing:.14em">SRI JOTHI TILES WORK</b></div><p style="margin-top:12px">Athangudi tiles and more, for floors, walls and outdoors.</p><small>The catalog designs and prices shown here are sample entries. Confirm the latest details with the shop.</small></div>
+ <div><b>Visit</b><p id="fAddr"></p></div>
+ <div><b>Call</b><p id="fPhone"></p><button class="linklike" id="replay" type="button">Replay intro</button></div>
+</div></footer>
+
+<datalist id="countries"></datalist>
+<div id="scrim"></div>
+<aside id="drawer" aria-label="Cart" aria-hidden="true"><div class="dh"><h3 id="drawerTitle">Your cart</h3><button class="icon" id="drawerClose" type="button" aria-label="Close cart"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="drawerBody"></div></aside>
+<div id="modal" role="dialog" aria-modal="true" aria-label="Dialog"><div id="modalBox"><button class="icon" id="modalX" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div id="modalBody"></div></div></div>
+<div id="toast" role="status"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg><span id="toastTx"></span></div>
+<button class="fab" id="enqFab" type="button">Enquire now</button>
+<a class="fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11 19.8L3 29l6.4-2A13 13 0 1 0 16 3zm0 2.4A10.6 10.6 0 1 1 9.8 24.6l-.4-.3-3.6 1.1 1.2-3.5-.3-.4A10.6 10.6 0 0 1 16 5.4zm-4.5 5.2c-.3 0-.7.1-1 .5-.4.4-1.300 1.300-1.300 3.100s1.300 3.600 1.500 3.900c.2.2 2.600 4.100 6.500 5.600 3.200 1.200 3.900 1 4.600.9.700-.1 2.300-.9 2.600-1.800.3-.9.3-1.600.2-1.800-.1-.2-.4-.3-.8-.5-.4-.2-2.300-1.100-2.600-1.300-.4-.1-.6-.2-.9.200-.3.400-1 1.300-1.200 1.500-.2.300-.4.300-.8.100-.4-.2-1.600-.6-3.100-1.900-1.100-1-1.900-2.300-2.100-2.700-.2-.4 0-.6.200-.8l.6-.7c.2-.2.200-.4.400-.7.100-.3.100-.5 0-.7l-1.200-2.900c-.3-.7-.6-.6-.9-.6z"/></svg></a>
+<div id="cur"></div><div id="ring"></div>
+
+<script>
+/* ============ EDIT YOUR SHOP DETAILS HERE ============ */
+const SHOP={name:'Sri Jothi Tiles Work',phone:'919443403382',phoneShow:'+91 94434 03382',address:'Athangudi, Tamil Nadu, India',email:'' /* add your email here, e.g. 'you@example.com' */};
+/* ====================================================== */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const root=document.documentElement;
+
+/*CALC-START*/
+const FT=304.8,SQFT_MM=FT*FT;
+const SIZES=[...[[1,1],[2,2],[2,4],[4,4],[4,8]].map(([a,b])=>({id:a+'x'+b+'ft',label:`${a} × ${b} ft`,w:a*FT,h:b*FT})),
+ ...[[300,450],[300,600],[1200,1800],[800,1600],[300,900],[300,1200],[400,400],[400,1200],[500,500],[800,3000],[800,800],[800,2400],[100,300],[100,200],[150,900],[200,1200],[200,200]].map(([a,b])=>({id:a+'x'+b,label:`${a} × ${b} mm`,w:a,h:b}))];
+const UNIT_FT={ft:1,m:3.28084,in:1/12,cm:0.0328084};
+function calcTiles({len,wid,unit,deduct,sizeId,waste,perBox,price}){
+ const s=SIZES.find(x=>x.id===sizeId)||SIZES[0];
+ const f=UNIT_FT[unit]||1,L=Math.max(0,+len||0),W=Math.max(0,+wid||0);
+ const area=L*f*W*f,net=Math.max(0,area-Math.max(0,+deduct||0));
+ const tileSqft=s.w*s.h/SQFT_MM,wf=1+Math.max(0,+waste||0)/100;
+ const tiles=net>0?Math.ceil(net*wf/tileSqft-1e-9):0;
+ const boxes=perBox>0&&tiles>0?Math.ceil(tiles/perBox):0;
+ const coverage=tiles*tileSqft;
+ return{size:s,area,net,tileSqft,tiles,boxes,coverage,cost:coverage*(+price||0),rw:L*f*FT,rh:W*f*FT};
+}
+/*CALC-END*/
+
+const P=[['#f3e5c8','#9c2f2a','#e0a93b','#3f7d5b'],['#f1e3c6','#2a5d8f','#e0a93b','#9c2f2a'],['#2f6b5f','#f3e5c8','#c8963a','#8a2b2b'],['#d9d4c9','#8d8576','#b9b0a0','#5a5448'],['#f1eeea','#9d968c','#c7c0b4','#d8d1c4'],['#b98a5b','#a47646','#7b5530','#d1aa7c'],['#1f2a3a','#c8963a','#e9dcc0','#4a6a8a'],['#f3efe6','#d6cdb9','#e6dfd0','#a99f8a'],['#2b2e33','#4a4f57','#8a9099','#c9ccd1'],['#e9d9c4','#d38b6a','#7aa6a1','#c8963a'],['#d9604a','#f2b134','#2d7f8f','#fbeed4'],['#b5543c','#d98a62','#8a3a2a','#efc9a6']];
+const ALT=[1,0,6,8,7,11,2,4,3,10,9,5];
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const ART={
+ star:p=>`<rect width="100" height="100" fill="${p[0]}"/><path d="M50 4 62 38 96 50 62 62 50 96 38 62 4 50 38 38Z" fill="${p[1]}"/><path d="M50 18 82 50 50 82 18 50Z" fill="${p[2]}"/><circle cx="50" cy="50" r="11" fill="${p[3]}"/><circle cx="50" cy="50" r="5" fill="${p[0]}"/><g fill="${p[3]}"><circle cx="0" cy="0" r="8"/><circle cx="100" cy="0" r="8"/><circle cx="0" cy="100" r="8"/><circle cx="100" cy="100" r="8"/></g>`,
+ geo:p=>`<rect width="100" height="100" fill="${p[0]}"/><path d="M50 0 100 50 50 100 0 50Z" fill="${p[1]}"/><path d="M50 24 76 50 50 76 24 50Z" fill="${p[2]}"/><rect width="100" height="100" fill="none" stroke="${p[3]}" stroke-width="3"/>`,
+ hex:p=>`<rect width="100" height="100" fill="${p[0]}"/><polygon points="50,6 88,28 88,72 50,94 12,72 12,28" fill="${p[1]}" stroke="${p[3]}" stroke-width="3"/><polygon points="50,24 72,37 72,63 50,76 28,63 28,37" fill="${p[2]}"/>`,
+ marble:(p,r)=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let i=0;i<6;i++){const y=r()*100;s+=`<path d="M-5 ${y} C 25 ${y+r()*44-22}, 60 ${y+r()*44-22}, 105 ${y+r()*44-22}" fill="none" stroke="${p[1+i%3]}" stroke-width="${(.4+r()*1.8).toFixed(2)}" opacity="${(.35+r()*.5).toFixed(2)}"/>`}return s},
+ wood:(p,r)=>{let s='';for(let i=0;i<4;i++){const y=i*25;s+=`<rect y="${y}" width="100" height="25" fill="${p[i%2]}"/>`;for(let j=0;j<5;j++)s+=`<path d="M${(r()*70).toFixed(1)} ${(y+3+r()*19).toFixed(1)}h${(10+r()*30).toFixed(1)}" stroke="${p[2]}" stroke-width=".7" opacity=".5"/>`;s+=`<path d="M0 ${y}H100M${(i*37)%100} ${y}v25" stroke="${p[2]}" stroke-width="1.2"/>`}return s},
+ mosaic:(p,r)=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let i=0;i<5;i++)for(let j=0;j<5;j++)s+=`<rect x="${i*20+1}" y="${j*20+1}" width="18" height="18" rx="2" fill="${p[1+Math.floor(r()*3)]}"/>`;return s},
+ terrazzo:(p,r)=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let i=0;i<26;i++){const x=r()*100,y=r()*100,a=2+r()*5,pts=[0,1,2,3].map(k=>`${(x+Math.cos(k*1.6+r())*a).toFixed(1)},${(y+Math.sin(k*1.6+r())*a).toFixed(1)}`).join(' ');s+=`<polygon points="${pts}" fill="${p[1+i%3]}"/>`}return s},
+ plain:p=>`<rect width="100" height="100" fill="${p[0]}"/><path d="M0 100 100 0V32L32 100Z" fill="#fff" opacity=".35"/><rect x=".5" y=".5" width="99" height="99" fill="none" stroke="${p[1]}" stroke-width="1.5"/>`,
+ stone:(p,r)=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let i=0;i<46;i++)s+=`<ellipse cx="${(r()*100).toFixed(1)}" cy="${(r()*100).toFixed(1)}" rx="${(1+r()*5).toFixed(1)}" ry="${(1+r()*3.5).toFixed(1)}" fill="${p[1+i%3]}" opacity="${(.25+r()*.4).toFixed(2)}"/>`;return s},
+ brick:p=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let r=0;r<4;r++)for(let k=-1;k<3;k++)s+=`<rect x="${k*50+(r%2)*25+1}" y="${r*25+1.5}" width="48" height="22" rx="2" fill="${p[1+(r+k+4)%3]}"/>`;return s},
+ chevron:p=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let k=-1;k<4;k++){const y=k*25;s+=`<path d="M0 ${y+12} 25 ${y+27} 50 ${y+12} 75 ${y+27} 100 ${y+12}" fill="none" stroke="${p[1+k%2]}" stroke-width="11"/>`}return s},
+ herring:p=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let k=-1;k<11;k++)s+=`<path d="M0 ${k*10} 50 ${k*10+25} 100 ${k*10}" fill="none" stroke="${p[1+(k+2)%2]}" stroke-width="7"/>`;return s},
+ octa:p=>`<rect width="100" height="100" fill="${p[0]}"/><polygon points="30,8 70,8 92,30 92,70 70,92 30,92 8,70 8,30" fill="${p[1]}" stroke="${p[3]}" stroke-width="3"/><rect x="38" y="38" width="24" height="24" fill="${p[2]}" transform="rotate(45 50 50)"/><g fill="${p[2]}"><path d="M0 0H18L0 18Z"/><path d="M100 0H82L100 18Z"/><path d="M0 100H18L0 82Z"/><path d="M100 100H82L100 82Z"/></g>`,
+ flute:p=>{let s=`<defs><linearGradient id="g"><stop offset="0" stop-color="${p[1]}"/><stop offset=".5" stop-color="${p[0]}"/><stop offset="1" stop-color="${p[2]}"/></linearGradient></defs>`;for(let i=0;i<10;i++)s+=`<rect x="${i*10}" width="10" height="100" fill="url(#g)"/>`;return s},
+ quatre:p=>`<rect width="100" height="100" fill="${p[0]}"/><g fill="none" stroke="${p[1]}" stroke-width="8"><circle cx="0" cy="50" r="34"/><circle cx="100" cy="50" r="34"/><circle cx="50" cy="0" r="34"/><circle cx="50" cy="100" r="34"/></g><path d="M50 36 64 50 50 64 36 50Z" fill="${p[2]}"/><circle cx="50" cy="50" r="4" fill="${p[3]}"/>`,
+ cube:p=>`<rect width="100" height="100" fill="${p[0]}"/><polygon points="50,8 90,30 50,52 10,30" fill="${p[1]}"/><polygon points="10,30 50,52 50,96 10,74" fill="${p[2]}"/><polygon points="90,30 50,52 50,96 90,74" fill="${p[3]}"/>`,
+ kitkat:p=>{let s=`<rect width="100" height="100" fill="${p[0]}"/>`;for(let i=0;i<8;i++)s+=`<rect x="${i*12.5+1.2}" y="-6" width="10.2" height="112" rx="5" fill="${p[1+i%2]}"/>`;return s},
+ carpet:p=>`<rect width="100" height="100" fill="${p[0]}"/><rect x="6" y="6" width="88" height="88" fill="none" stroke="${p[1]}" stroke-width="5"/><rect x="16" y="16" width="68" height="68" fill="none" stroke="${p[2]}" stroke-width="2"/><path d="M50 28V72M28 50H72" stroke="${p[3]}" stroke-width="5"/>`,
+ jali:p=>`<rect width="100" height="100" fill="${p[0]}"/><g fill="${p[1]}"><circle cx="25" cy="25" r="19"/><circle cx="75" cy="25" r="19"/><circle cx="25" cy="75" r="19"/><circle cx="75" cy="75" r="19"/></g><g fill="${p[2]}"><circle cx="25" cy="25" r="8"/><circle cx="75" cy="25" r="8"/><circle cx="25" cy="75" r="8"/><circle cx="75" cy="75" r="8"/></g><circle cx="50" cy="50" r="5" fill="${p[3]}"/>`
+};
+const uriCache={};
+function tileURI(type,pal,seed){const k=type+pal+seed;return uriCache[k]||(uriCache[k]='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="none">${ART[type](P[pal],rng(seed))}</svg>`))}
+const bg=p=>`url("${p.uri}")`;
+
+const STYLE_DEF=[['3D Tiles','cube',6],['Wooden Tiles','wood',5],['Marble Tiles','marble',4],['Texture Tiles','stone',3],['Mosaic Tiles','mosaic',10],['Granite Tiles','stone',8],['Stone Tiles','stone',3],['Pattern Tiles','geo',1],['Geometric Tiles','geo',2],['Cement Tiles','quatre',0],['Flower Tiles','star',0],['Travertine Tiles','stone',7],['Slate Tiles','stone',8],['Statuario Tiles','marble',4],['Plain Tiles','plain',7],['Onyx Tiles','marble',2],['End Match Tiles','marble',4],['Book Match Tiles','marble',4],['Carrara Tiles','marble',4],['Abstract Tiles','terrazzo',10],['Monochrome Tiles','chevron',8],['Stylized Tiles','octa',6],['Brick Tiles','brick',11],['Hexagonal Tiles','hex',2],['Limestone Tiles','stone',7],['Wooden Plank Tiles','wood',5],['Athangudi Tiles','star',0],['Moroccan Tiles','quatre',1],['Subway Tiles','brick',7],['Kitkat Tiles','kitkat',2],['Chevron Tiles','chevron',6],['Octagon Tiles','octa',0],['Natural Stone Cladding','stone',11],['Brick Cladding','brick',11],['Stone Murals','marble',3],['Border Tiles','carpet',1],['Fluted Tiles','flute',7],['Terrazzo Tiles','terrazzo',9],['Tropical Tiles','star',2],['Carpet Tiles','carpet',8],['Poster Tiles','geo',10],['Herringbone','herring',5],['Kota Tiles','stone',3],['Blue Pottery Tiles','quatre',1],['Terracotta Clay Jali','jali',11]];
+const TYPES=['Vitrified Tiles','Ceramic Tiles','Porcelain Tiles','Designer Tiles','Digital Tiles','Double Charge Vitrified Tiles','Glazed Tiles','Cool Tiles','Glass Highlighter Tiles','Full Body Vitrified Tiles','Printed Tiles','Nano Tiles'];
+const AREA_LIST=['Floor Tiles','Wall Tiles','Bathroom Tiles','Kitchen Tiles','Living Room Tiles','Outdoor Tiles','Parking Tiles','Other Tile Areas','Stone'];
+const AREA_OF={star:[0,4,5],geo:[0,3,1],hex:[2,0,1],marble:[4,0,1],wood:[4,0,7],mosaic:[2,3,1],terrazzo:[0,4,7],plain:[3,0,2],stone:[5,6,8],herring:[1,0,3],brick:[1,5,8],chevron:[1,0,2],octa:[0,4,5],flute:[1,4,7],quatre:[0,2,1],cube:[1,4,7],kitkat:[3,1,2],carpet:[0,4,7],jali:[1,5,7]};
+const BASE_PRICE={star:95,geo:70,hex:78,marble:140,wood:110,mosaic:98,terrazzo:105,plain:48,stone:72,herring:90,brick:62,chevron:84,octa:88,flute:96,quatre:92,cube:86,kitkat:80,carpet:66,jali:75};
+const NAMES=['Royal','Heritage','Chettinad','Sunrise','Monsoon','Temple','Palace','Lotus','Peacock','Saffron','Jasmine','Coastal'];
+const PRODUCTS=[];
+STYLE_DEF.forEach(([style,type,pal],i)=>{for(let v=0;v<2;v++){const pp=v?ALT[pal]:pal,seed=i*7+v*3+1,b=SIZES.length,s0=(i*5+v*7)%b;
+ PRODUCTS.push({id:'p'+PRODUCTS.length,name:`${NAMES[(i*2+v)%12]} ${style.replace(' Tiles','')}`,style,type:TYPES[(i*3+v)%12],areas:AREA_OF[type].map(k=>AREA_LIST[k]),sizes:[SIZES[s0],SIZES[(s0+3)%b],SIZES[(s0+8)%b]],price:BASE_PRICE[type]+v*8+(i%5)*3,art:{type,pal:pp,seed},uri:tileURI(type,pp,seed)})}});
+const prod=id=>PRODUCTS.find(p=>p.id===id);
+const sizeById=id=>SIZES.find(s=>s.id===id)||SIZES[0];
+
+/* ============ helpers ============ */
+let toastT;function toast(t){$('#toastTx').textContent=t;const e=$('#toast');e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2200)}
+function waLink(text){return`https://wa.me/${SHOP.phone}?text=${encodeURIComponent(text)}`}
+function fillOpts(sel,list,first){sel.innerHTML=(first?`<option value="">${first}</option>`:'')+list.map(x=>typeof x==='string'?`<option>${x}</option>`:`<option value="${x.v}">${x.t}</option>`).join('')}
+function count(el,to){const dur=1400,t0=performance.now();if(reduced){el.textContent=to;return}(function f(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,4);el.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(f)})(t0)}
+
+/* ============ intro ============ */
+function splitTitle(){$$('[data-split]').forEach(el=>{let n=0;const base=el.classList.contains('l2')?9:0;el.innerHTML=[...el.dataset.split].map((ch,k)=>ch===' '?'<span style="width:.4em">&nbsp;</span>':`<span style="--i:${base+k}">${ch}</span>`).join('')})}
+let introT,introOn=false;
+function playIntro(){const el=$('#intro');if(!el||reduced){endIntro(true);return}introOn=true;el.style.display='';el.classList.remove('out');$$('#intro *').forEach(n=>{n.style.animation='none';void n.offsetWidth;n.style.animation=''});clearTimeout(introT);introT=setTimeout(endIntro,6600)}
+function endIntro(now){clearTimeout(introT);const el=$('#intro');if(!el)return;if(now){el.style.display='none';return}el.classList.add('out');setTimeout(()=>{el.style.display='none';introOn=false},1000)}
+
+/* ============ routing ============ */
+const ROUTES=['home','shop','demo-room','calculator','gallery','panorama','about','contact'];
+let current=null,lastPt={x:innerWidth/2,y:120};
+const inited={};
+function show(p){
+ $$('.page').forEach(x=>x.hidden=x.id!=='page-'+p);
+ $$('#nav a').forEach(a=>a.getAttribute('data-go')===p?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+ current=p;scrollTo(0,0);$('#nav').classList.remove('open');$('#burger').setAttribute('aria-expanded','false');
+ document.title=(p==='home'?'':p.replace('-',' ').replace(/^./,c=>c.toUpperCase())+' · ')+SHOP.name;
+ if(p==='home'&&!inited.home){inited.home=1;$$('[data-count]').forEach(b=>count(b,{styles:STYLE_DEF.length,sizes:SIZES.length,areas:AREA_LIST.length,types:TYPES.length}[b.dataset.count]))}
+ if(p==='demo-room'){if(!inited.vz){inited.vz=1;initVZ()}fitRoom()}
+ if(p==='panorama'&&!inited.pano){inited.pano=1;initPano()}
+ if(p==='panorama')buildPano();
+ if(p==='gallery'&&!inited.gal){inited.gal=1;initGallery()}
+ if(p==='contact'&&!inited.contact){inited.contact=1;initContact()}
+ if(p==='calculator'&&!inited.calc){inited.calc=1;initCalc()}
+}
+function navigate(p,fromHash){
+ if(!ROUTES.includes(p))p='home';
+ if(p===current)return;
+ root.style.setProperty('--vx',lastPt.x+'px');root.style.setProperty('--vy',lastPt.y+'px');
+ if(!fromHash){try{history.replaceState(null,'','#'+p)}catch(e){try{location.hash=p}catch(_){}}}
+ if(document.startViewTransition&&!reduced&&current)document.startViewTransition(()=>show(p));else show(p);
+}
+addEventListener('hashchange',()=>navigate(location.hash.slice(1),true));
+document.addEventListener('pointerdown',e=>{lastPt={x:e.clientX,y:e.clientY}},true);
+document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(a){e.preventDefault();navigate(a.dataset.go)}});
+$('#burger').onclick=()=>{const o=$('#nav').classList.toggle('open');$('#burger').setAttribute('aria-expanded',o)};
+
+/* ============ vibes ============ */
+const VIBES=[['classic','Classic'],['90s','90s Retro'],['y2k','Y2K Gloss'],['genz','Gen Z']];
+let vi=Math.max(0,VIBES.findIndex(v=>v[0]===store.get('sj-vibe','classic')));
+function setVibe(i){vi=i;root.dataset.vibe=VIBES[i][0];$('#vibeBtn').setAttribute('aria-label','Change look: '+VIBES[i][1]);store.set('sj-vibe',VIBES[i][0])}
+$('#vibeBtn').onclick=e=>{const n=(vi+1)%VIBES.length;lastPt={x:e.clientX,y:e.clientY};root.style.setProperty('--vx',lastPt.x+'px');root.style.setProperty('--vy',lastPt.y+'px');if(document.startViewTransition&&!reduced)document.startViewTransition(()=>setVibe(n));else setVibe(n);toast('Look: '+VIBES[n][1])};
+
+/* ============ home ============ */
+function initHome(){
+ const pick=[26,2,1,37,23,8,4,19,9].map(i=>PRODUCTS[i*2]);
+ $('#heroArt').innerHTML=pick.map((p,i)=>`<div class="ht par" style="--i:${i};--d:${(i%3+1)*7};--k:${(i%3)*.04};background-image:${bg(p)};border-radius:${i%2?'50%':'var(--radius)'}"></div>`).join('');
+ const names=STYLE_DEF.map(s=>s[0]);$('#ticker').innerHTML=[...names,...names].map(n=>`<span>${n}</span>`).join('');
+ const feat=['Athangudi Tiles','Marble Tiles','Wooden Tiles','Terrazzo Tiles','Hexagonal Tiles','Stone Tiles','Mosaic Tiles','Geometric Tiles'];
+ $('#homeStyles').innerHTML=feat.map((n,i)=>{const p=PRODUCTS.find(x=>x.style===n);return`<button class="card style-card tilt rv" style="--i:${i}" data-style="${n}"><div class="bgi" style="background-image:${bg(p)}"></div><span>${n}</span></button>`}).join('');
+ $('#homeStyles').onclick=e=>{const b=e.target.closest('[data-style]');if(!b)return;$('#shopStyle').value=b.dataset.style;renderShop();navigate('shop')};
+ const arts=[PRODUCTS[54],PRODUCTS[8],PRODUCTS[6]];$$('.tool .gl').forEach((g,i)=>g.style.backgroundImage=bg(arts[i]));
+}
+
+/* ============ shop ============ */
+const wish=new Set(store.get('sj-wish',[]));
+const filt={q:'',style:'',type:'',area:'',size:'',sort:'f'};
+function initShop(){
+ fillOpts($('#shopStyle'),STYLE_DEF.map(s=>s[0]),'All styles');fillOpts($('#shopType'),TYPES,'All types');fillOpts($('#shopArea'),AREA_LIST,'All areas');fillOpts($('#shopSize'),SIZES.map(s=>({v:s.id,t:s.label})),'All sizes');
+ $('#shopChips').innerHTML=['All',...AREA_LIST.slice(0,7)].map((a,i)=>`<button class="chip" type="button" data-area="${i?a:''}" aria-pressed="${!i}">${a.replace(' Tiles','')}</button>`).join('')+`<button class="chip" id="shopReset" type="button">Reset filters</button>`;
+ ['shopQ','shopStyle','shopType','shopArea','shopSize','shopSort'].forEach(id=>$('#'+id).addEventListener('input',renderShop));
+ $('#shopChips').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;if(c.id==='shopReset'){['shopQ','shopStyle','shopType','shopArea','shopSize'].forEach(i=>$('#'+i).value='');$('#shopSort').value='f'}else $('#shopArea').value=c.dataset.area;renderShop()};
+ $('#shopGrid').onclick=e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const card=b.closest('.prod'),p=prod(card.dataset.id);
+  if(b.dataset.act==='wish'){wish.has(p.id)?wish.delete(p.id):wish.add(p.id);store.set('sj-wish',[...wish]);b.classList.toggle('on',wish.has(p.id));b.setAttribute('aria-pressed',wish.has(p.id));b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+  if(b.dataset.act==='add')addToCart(p.id,$('select',card).value,50);
+  if(b.dataset.act==='try'){vz.tile=p.id;vz.touched=1;navigate('demo-room');if(inited.vz)paintVZ()}
+ };
+ renderShop();
+}
+function card(p,i){const on=wish.has(p.id);return`<article class="card prod tilt rv" style="--i:${Math.min(i,10)}" data-id="${p.id}"><div class="pimg" style="background-image:${bg(p)}"><button class="heart ${on?'on':''}" data-act="wish" aria-pressed="${on}" aria-label="Save ${p.name}"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.600-9 9-9 9z"/></svg></button><span class="tag">${p.type.replace(' Tiles','')}</span></div><div class="pbody"><h3>${p.name}</h3><p class="meta">${p.style} · ${p.areas[0].replace(' Tiles','')}</p><div class="fld"><label class="sr" for="sz-${p.id}">Size</label><select id="sz-${p.id}">${p.sizes.map(s=>`<option value="${s.id}">${s.label}</option>`).join('')}</select></div><div class="prow"><span class="price">${inr(p.price)}<small> /sq ft</small></span><div class="pact"><button class="btn sm ghost" data-act="try" type="button">Try in room</button><button class="btn sm" data-act="add" type="button">Add 50 sq ft</button></div></div></div></article>`}
+function renderShop(){
+ const q=$('#shopQ').value.trim().toLowerCase(),st=$('#shopStyle').value,ty=$('#shopType').value,ar=$('#shopArea').value,sz=$('#shopSize').value,so=$('#shopSort').value;
+ let l=PRODUCTS.filter(p=>(!q||(p.name+' '+p.style+' '+p.type).toLowerCase().includes(q))&&(!st||p.style===st)&&(!ty||p.type===ty)&&(!ar||p.areas.includes(ar))&&(!sz||p.sizes.some(s=>s.id===sz)));
+ if(so==='lh')l.sort((a,b)=>a.price-b.price);if(so==='hl')l.sort((a,b)=>b.price-a.price);if(so==='az')l.sort((a,b)=>a.name.localeCompare(b.name));
+ $('#shopGrid').innerHTML=l.length?l.map(card).join(''):'<p class="empty">No tiles match these filters. Try resetting them.</p>';
+ $('#shopCount').textContent=`Showing ${l.length} of ${PRODUCTS.length} tiles`;
+ $$('#shopChips .chip[data-area]').forEach(c=>c.setAttribute('aria-pressed',c.dataset.area===ar));
+}
+
+/* ============ cart ============ */
+let cart=store.get('sj-cart',[]);
+const CART_STEP=10;
+function saveCart(){store.set('sj-cart',cart);const n=cart.length,b=$('#cartN');b.textContent=n;b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}
+function addToCart(pid,size,sqft){const it=cart.find(c=>c.pid===pid&&c.size===size);it?it.sqft+=sqft:cart.push({pid,size,sqft});saveCart();toast(`Added ${Math.round(sqft)} sq ft`)}
+const lineTotal=c=>prod(c.pid).price*c.sqft;
+function openDrawer(view){$('#drawer').classList.add('on');$('#scrim').classList.add('on');$('#drawer').setAttribute('aria-hidden','false');renderDrawer(view||'cart')}
+function closeDrawer(){$('#drawer').classList.remove('on');$('#scrim').classList.remove('on');$('#drawer').setAttribute('aria-hidden','true')}
+function renderDrawer(view){
+ const body=$('#drawerBody');
+ if(view==='cart'){
+  $('#drawerTitle').textContent='Your cart';
+  if(!cart.length){body.innerHTML='<p class="empty">Your cart is empty.</p><button class="btn" data-go="shop" type="button">Browse tiles</button>';return}
+  const sub=cart.reduce((a,c)=>a+lineTotal(c),0);
+  body.innerHTML=cart.map((c,i)=>{const p=prod(c.pid);return`<div class="line" data-i="${i}"><div class="th" style="background-image:${bg(p)}"></div><div><b>${p.name}</b><div class="muted" style="font-size:.8rem">${sizeById(c.size).label} · ${inr(p.price)}/sq ft</div><div class="qty"><button data-q="-1" aria-label="Less">−</button><span>${c.sqft} sq ft</span><button data-q="1" aria-label="More">+</button></div></div><div style="text-align:right"><b>${inr(lineTotal(c))}</b><br><button class="linklike" style="color:var(--muted);font-size:.8rem" data-rm="1">Remove</button></div></div>`}).join('')+`<div class="sum"><span>Subtotal</span><span>${inr(sub)}</span></div><p class="muted" style="font-size:.82rem">Delivery and GST are confirmed by the shop.</p><button class="btn mag" id="goCheckout" type="button">Checkout</button>`;
+ }
+ if(view==='checkout'){
+  $('#drawerTitle').textContent='Checkout';
+  body.innerHTML=`<form id="coForm" class="enq" style="grid-template-columns:1fr;padding:0;border:0;box-shadow:none;background:none" novalidate>
+  ${[['coName','Full name','text','name'],['coPhone','Phone number','tel','tel'],['coAddr','Delivery address','textarea','street-address'],['coCity','Town and PIN code','text','postal-code']].map(([id,l,t,ac])=>`<div class="fld"><label for="${id}">${l} *</label>${t==='textarea'?`<textarea id="${id}" rows="3" required autocomplete="${ac}"></textarea>`:`<input id="${id}" type="${t}" required autocomplete="${ac}">`}<small class="err"></small></div>`).join('')}
+  <div class="fld"><label for="coPay">Payment *</label><select id="coPay"><option>Pay on delivery</option><option>UPI on delivery</option><option>Pay at the shop</option><option>Bank transfer</option></select></div>
+  <div class="fld"><label for="coNote">Note (optional)</label><input id="coNote"></div>
+  <p class="muted" style="font-size:.82rem;margin:0">No online payment is taken. Your order goes to the shop on WhatsApp for confirmation.</p>
+  <button class="btn mag" type="submit">Place order</button><button class="btn ghost" type="button" id="backCart">Back to cart</button></form>`;
+ }
+ if(view==='done'){$('#drawerTitle').textContent='Order ready'}
+}
+$('#drawerBody').addEventListener('click',e=>{
+ const ln=e.target.closest('.line');
+ if(e.target.dataset.q&&ln){const c=cart[+ln.dataset.i];c.sqft=Math.max(CART_STEP,c.sqft+(+e.target.dataset.q)*CART_STEP);saveCart();renderDrawer('cart')}
+ if(e.target.dataset.rm&&ln){cart.splice(+ln.dataset.i,1);saveCart();renderDrawer('cart')}
+ if(e.target.id==='goCheckout')renderDrawer('checkout');
+ if(e.target.id==='backCart')renderDrawer('cart');
+});
+$('#drawerBody').addEventListener('submit',e=>{
+ if(e.target.id!=='coForm')return;e.preventDefault();
+ const f=e.target;let ok=true,first=null;
+ [['coName',v=>v.length>1,'Enter your full name'],['coPhone',v=>/^\+?\d{7,15}$/.test(v.replace(/[\s-]/g,'')),'Enter a valid phone number'],['coAddr',v=>v.length>5,'Enter the delivery address'],['coCity',v=>v.length>2,'Enter your town and PIN code']].forEach(([id,fn,msg])=>{const el=$('#'+id,f),v=el.value.trim(),good=fn(v);el.setAttribute('aria-invalid',!good);el.nextElementSibling.textContent=good?'':msg;if(!good){ok=false;first=first||el}});
+ if(!ok){first.focus();return}
+ const id='SJT-'+Date.now().toString(36).toUpperCase(),sub=cart.reduce((a,c)=>a+lineTotal(c),0);
+ const lines=cart.map(c=>`• ${prod(c.pid).name} (${prod(c.pid).style}), ${sizeById(c.size).label}, ${c.sqft} sq ft = ${inr(lineTotal(c))}`).join('\n');
+ const msg=`New order ${id}\n${lines}\nSubtotal: ${inr(sub)}\n\nName: ${$('#coName').value}\nPhone: ${$('#coPhone').value}\nAddress: ${$('#coAddr').value}, ${$('#coCity').value}\nPayment: ${$('#coPay').value}${$('#coNote').value?'\nNote: '+$('#coNote').value:''}`;
+ cart=[];saveCart();renderDrawer('done');
+ $('#drawerBody').innerHTML=`<div class="enq-ok"><b>Order ${id} is ready.</b><span>Tap the button to send it to ${SHOP.name} on WhatsApp. The order is not confirmed until the shop replies.</span><a class="btn" target="_blank" rel="noopener" href="${waLink(msg)}">Send order on WhatsApp</a></div>`;
+});
+$('#cartBtn').onclick=()=>openDrawer('cart');$('#drawerClose').onclick=closeDrawer;
+$('#scrim').onclick=()=>{closeDrawer();closeModal()};
+
+/* ============ modal + enquiry form ============ */
+const COUNTRIES=['India','Sri Lanka','Singapore','Malaysia','United Arab Emirates','Saudi Arabia','Qatar','Kuwait','Oman','Bahrain','United States','Canada','United Kingdom','Australia','New Zealand','Germany','France','Italy','Netherlands','Switzerland','Sweden','Ireland','Japan','South Korea','China','Hong Kong','Thailand','Indonesia','Philippines','Vietnam','Bangladesh','Nepal','Bhutan','Maldives','Pakistan','South Africa','Kenya','Nigeria','Egypt','Mauritius','Brazil','Mexico','Russia','Turkey','Spain','Portugal','Norway','Denmark','Finland','Poland'];
+$('#countries').innerHTML=COUNTRIES.map(c=>`<option value="${c}">`).join('');
+let lastFocus=null;
+function openModal(html){lastFocus=document.activeElement;$('#modalBody').innerHTML=html;$('#modal').classList.add('on');$('#scrim').classList.add('on');setTimeout(()=>{const f=$('#modalBody input,#modalBody button,#modalBody a');f&&f.focus()},80)}
+function closeModal(){$('#modal').classList.remove('on');if(!$('#drawer').classList.contains('on'))$('#scrim').classList.remove('on');lastFocus&&lastFocus.focus&&lastFocus.focus()}
+$('#modalX').onclick=closeModal;$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDrawer()}});
+function enquiryForm(p,pre=''){return`<form class="enq" id="${p}-form" novalidate>
+ <div class="fld"><label for="${p}-name">Full name *</label><input id="${p}-name" name="name" autocomplete="name" required><small class="err"></small></div>
+ <div class="fld"><label for="${p}-phone">Phone number *</label><input id="${p}-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 90000 00000" required><small class="err"></small></div>
+ <div class="fld"><label for="${p}-country">Country *</label><input id="${p}-country" name="country" list="countries" autocomplete="country-name" placeholder="Start typing" required><small class="err"></small></div>
+ <div class="fld"><label for="${p}-email">E-mail address *</label><input id="${p}-email" name="email" type="email" autocomplete="email" required><small class="err"></small></div>
+ <div class="fld full"><label for="${p}-msg">Message *</label><textarea id="${p}-msg" name="message" rows="4" required>${pre}</textarea><small class="err"></small></div>
+ <button class="btn mag" type="submit">Send enquiry</button><div class="enq-ok" hidden></div></form>`}
+document.addEventListener('submit',e=>{
+ const f=e.target;if(!f.classList.contains('enq')||f.id==='coForm')return;e.preventDefault();
+ const g=n=>f.elements[n],rules={name:[v=>v.length>1,'Enter your full name'],phone:[v=>/^\+?\d{7,15}$/.test(v.replace(/[\s-]/g,'')),'Enter a valid phone number'],country:[v=>COUNTRIES.some(c=>c.toLowerCase()===v.toLowerCase()),'Choose a country from the list'],email:[v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v),'Enter a valid e-mail address'],message:[v=>v.length>=5,'Write a short message']};
+ let ok=true,first=null;
+ for(const k in rules){const el=g(k),good=rules[k][0](el.value.trim());el.setAttribute('aria-invalid',!good);el.nextElementSibling.textContent=good?'':rules[k][1];if(!good){ok=false;first=first||el}}
+ if(!ok){first.focus();return}
+ const d=Object.fromEntries(['name','phone','country','email','message'].map(k=>[k,g(k).value.trim()]));
+ const msg=`Enquiry for ${SHOP.name}\nName: ${d.name}\nPhone: ${d.phone}\nCountry: ${d.country}\nE-mail: ${d.email}\n\n${d.message}`;
+ const ok2=$('.enq-ok',f);ok2.hidden=false;
+ ok2.innerHTML=`<b>Thank you, ${d.name.split(' ')[0]}. Your enquiry is ready.</b><span>Tap below to send it to the shop on WhatsApp.</span><a class="btn" target="_blank" rel="noopener" href="${waLink(msg)}">Send on WhatsApp</a>${SHOP.email?`<a class="btn ghost" href="mailto:${SHOP.email}?subject=${encodeURIComponent('Enquiry from '+d.name)}&body=${encodeURIComponent(msg)}">Send by e-mail</a>`:''}`;
+ ok2.scrollIntoView({block:'nearest',behavior:'smooth'});
+});
+$('#enqFab').onclick=()=>openModal('<h3>Enquire now</h3><p class="muted">All fields are required.</p>'+enquiryForm('m'));
+function enquire(text){openModal('<h3>Enquire now</h3><p class="muted">All fields are required.</p>'+enquiryForm('m',text))}
+function initContact(){
+ $('#contactInfo').innerHTML=`<div class="card"><b>Address</b><span>${SHOP.name}, ${SHOP.address}</span><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Athangudi Tamil Nadu')}">Open in Google Maps</a></div><div class="card"><b>Phone</b><span>${SHOP.phoneShow}</span><a href="tel:+${SHOP.phone}">Call now</a></div><div class="card"><b>WhatsApp</b><a target="_blank" rel="noopener" href="${waLink('Hello, I want to know more about your tiles.')}">Chat on WhatsApp</a></div><div class="card"><b>E-mail</b>${SHOP.email?`<a href="mailto:${SHOP.email}">${SHOP.email}</a>`:'<span class="muted">Our e-mail address will be added soon.</span>'}</div>`;
+ $('#cForm').innerHTML=enquiryForm('c');
+}
+
+/* ============ demo room ============ */
+const SKY='<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ccbff"/><stop offset="1" stop-color="#e3f3ff"/></linearGradient><pattern id="bars" width="36" height="80" patternUnits="userSpaceOnUse"><path d="M18 0V80" stroke="#3a3a3a" stroke-width="5"/></pattern></defs>';
+const ROOMS={
+ living:{label:'Living room',svg:`<ellipse cx="400" cy="350" rx="200" ry="14" fill="#000" opacity=".25"/><rect x="90" y="52" width="170" height="140" rx="4" fill="url(#sky)" stroke="#f6f0e4" stroke-width="9"/><path d="M175 52V192M90 122H260" stroke="#f6f0e4" stroke-width="5"/><rect x="330" y="70" width="90" height="112" fill="#1f2a3a" stroke="#c79a3b" stroke-width="5"/><circle cx="375" cy="126" r="26" fill="#c79a3b" opacity=".9"/><rect x="450" y="70" width="60" height="112" fill="#7b1e2c" stroke="#c79a3b" stroke-width="5"/><rect x="238" y="226" width="324" height="72" rx="14" fill="#3a5a6e"/><rect x="246" y="262" width="308" height="84" rx="12" fill="#2f4858"/><rect x="222" y="250" width="40" height="100" rx="14" fill="#2a4150"/><rect x="538" y="250" width="40" height="100" rx="14" fill="#2a4150"/><path d="M400 266V344" stroke="#243947" stroke-width="3"/><ellipse cx="400" cy="440" rx="95" ry="10" fill="#000" opacity=".2"/><rect x="320" y="386" width="160" height="34" rx="8" fill="#7a5230"/><rect x="332" y="420" width="8" height="22" fill="#5a3a20"/><rect x="460" y="420" width="8" height="22" fill="#5a3a20"/><path d="M652 340h46l-8 62h-30z" fill="#9c4a2f"/><g fill="#2f7d4f"><ellipse cx="672" cy="300" rx="14" ry="42" transform="rotate(-18 672 330)"/><ellipse cx="690" cy="305" rx="14" ry="42" transform="rotate(20 690 335)"/><ellipse cx="674" cy="290" rx="12" ry="38"/></g><rect x="610" y="196" width="4" height="150" fill="#333"/><path d="M590 196h44l-10-34h-24z" fill="#f2d98a"/>`},
+ kitchen:{label:'Kitchen',svg:`<rect x="60" y="56" width="300" height="92" rx="4" fill="#e8d9c0"/><path d="M135 56V148M210 56V148M285 56V148" stroke="#b9a782" stroke-width="3"/><rect x="440" y="56" width="300" height="92" rx="4" fill="#e8d9c0"/><path d="M515 56V148M590 56V148M665 56V148" stroke="#b9a782" stroke-width="3"/><path d="M375 60h50l14 40h-78z" fill="#9aa3ab"/><rect x="394" y="36" width="12" height="28" fill="#8a929a"/><rect x="40" y="224" width="720" height="14" fill="#d9d2c6"/><rect x="50" y="238" width="700" height="122" fill="#5b4636"/><path d="M180 238V360M310 238V360M440 238V360M570 238V360" stroke="#3f2f23" stroke-width="3"/><g fill="#222"><circle cx="500" cy="230" r="8"/><circle cx="540" cy="230" r="8"/></g><rect x="150" y="206" width="70" height="18" rx="8" fill="#b8c2c8"/><ellipse cx="400" cy="474" rx="170" ry="12" fill="#000" opacity=".22"/><rect x="250" y="396" width="300" height="20" rx="4" fill="#d9d2c6"/><rect x="262" y="416" width="276" height="56" fill="#5b4636"/><g fill="#c79a3b"><rect x="296" y="440" width="10" height="36"/><rect x="494" y="440" width="10" height="36"/></g>`},
+ bathroom:{label:'Bathroom',svg:`<rect x="110" y="64" width="130" height="150" rx="65" fill="#cfe3ea" stroke="#c79a3b" stroke-width="6"/><rect x="90" y="236" width="170" height="14" rx="3" fill="#efe9de"/><rect x="100" y="250" width="150" height="110" fill="#6b4a2f"/><path d="M175 250V360" stroke="#4a3220" stroke-width="3"/><rect x="150" y="226" width="50" height="12" rx="6" fill="#fff"/><rect x="170" y="204" width="10" height="24" fill="#b8c2c8"/><rect x="300" y="110" width="80" height="6" fill="#c79a3b"/><rect x="312" y="116" width="56" height="90" fill="#7b1e2c"/><ellipse cx="570" cy="372" rx="190" ry="12" fill="#000" opacity=".22"/><path d="M400 250h340v50c0 40-30 70-70 70H470c-40 0-70-30-70-70z" fill="#f7f5f0" stroke="#d9d4c9" stroke-width="3"/><rect x="560" y="206" width="12" height="46" fill="#b8c2c8"/><path d="M566 208h-30" stroke="#b8c2c8" stroke-width="8"/>`},
+ bedroom:{label:'Bedroom',svg:`<rect x="560" y="52" width="170" height="130" rx="4" fill="url(#sky)" stroke="#f6f0e4" stroke-width="9"/><path d="M645 52V182" stroke="#f6f0e4" stroke-width="5"/><rect x="90" y="70" width="110" height="80" fill="#1f2a3a" stroke="#c79a3b" stroke-width="5"/><circle cx="145" cy="110" r="20" fill="#c79a3b"/><ellipse cx="400" cy="378" rx="210" ry="14" fill="#000" opacity=".25"/><rect x="250" y="112" width="300" height="150" rx="10" fill="#5a3a2a"/><path d="M250 180H550" stroke="#47291c" stroke-width="3"/><rect x="232" y="246" width="336" height="130" rx="14" fill="#e9e3d8"/><rect x="232" y="298" width="336" height="78" rx="10" fill="#8a2b3a"/><rect x="262" y="256" width="110" height="38" rx="14" fill="#fff"/><rect x="428" y="256" width="110" height="38" rx="14" fill="#fff"/><rect x="160" y="290" width="54" height="72" fill="#7a5230"/><rect x="586" y="290" width="54" height="72" fill="#7a5230"/><path d="M172 290h30l-6-32h-18zM598 290h30l-6-32h-18z" fill="#f2d98a"/>`},
+ patio:{label:'Patio',sky:1,svg:`<rect y="206" width="800" height="84" fill="url(#bars)"/><rect y="200" width="800" height="12" fill="#2a2a2a"/><g fill="#2f7d4f"><ellipse cx="90" cy="190" rx="70" ry="90"/><ellipse cx="160" cy="215" rx="55" ry="70" fill="#3d9660"/><ellipse cx="720" cy="180" rx="80" ry="100"/><ellipse cx="650" cy="220" rx="50" ry="62" fill="#3d9660"/></g><ellipse cx="400" cy="396" rx="170" ry="14" fill="#000" opacity=".22"/><ellipse cx="400" cy="360" rx="110" ry="26" fill="#7a5230"/><rect x="394" y="360" width="12" height="38" fill="#5a3a20"/><g fill="#c79a3b"><rect x="270" y="320" width="64" height="12" rx="4"/><rect x="278" y="332" width="8" height="52"/><rect x="320" y="332" width="8" height="52"/><rect x="466" y="320" width="64" height="12" rx="4"/><rect x="474" y="332" width="8" height="52"/><rect x="516" y="332" width="8" height="52"/></g>`}
+};
+const vz={room:'living',tile:'p54',apply:'both',size:100,photo:null,line:58,touched:0};
+function fitRoom(){const h=$('#roomHost'),w=h.clientWidth;if(!w)return;const s=w/800;$('#roomInner').style.transform=`scale(${s})`;h.style.height=500*s+'px'}
+addEventListener('resize',fitRoom);
+function paintVZ(){
+ const p=prod(vz.tile),inner=$('#roomInner'),floor=$('#roomFloor'),wall=$('#roomWall'),s=vz.size;
+ inner.classList.toggle('photo',!!vz.photo);inner.style.backgroundImage=vz.photo?`url("${vz.photo}")`:'';
+ inner.classList.toggle('sky',!!ROOMS[vz.room].sky&&!vz.photo);
+ const fl=vz.apply!=='wall',wl=vz.apply!=='floor';
+ floor.style.backgroundImage=fl?bg(p):'none';floor.style.backgroundSize=`${s}px ${s}px`;
+ wall.style.backgroundImage=wl?bg(p):'none';wall.style.backgroundSize=`${s*.8}px ${s*.8}px`;wall.style.backgroundPosition='center bottom';
+ $('#roomFloorWrap').style.top=(vz.photo?vz.line*5:290)+'px';
+ $('#roomFurn').innerHTML=SKY+ROOMS[vz.room].svg;
+ $('#vzName').textContent=`${ROOMS[vz.room].label} · ${p.name} (${p.style}) · ${inr(p.price)} per sq ft`;
+ $$('#vzTiles button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===vz.tile));
+ $$('#roomTabs .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.room===vz.room));
+ $$('#vzApply .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.ap===vz.apply));
+}
+function initVZ(){
+ $('#roomTabs').innerHTML=Object.entries(ROOMS).map(([k,r])=>`<button class="chip" type="button" data-room="${k}">${r.label}</button>`).join('');
+ $('#vzApply').innerHTML=[['both','Floor and wall'],['floor','Floor only'],['wall','Wall only']].map(([k,t])=>`<button class="chip" type="button" data-ap="${k}">${t}</button>`).join('');
+ $('#vzTiles').innerHTML=PRODUCTS.map(p=>`<button type="button" data-id="${p.id}" style="background-image:${bg(p)}" aria-label="${p.name}" title="${p.name}"></button>`).join('');
+ $('#roomTabs').onclick=e=>{const b=e.target.closest('[data-room]');if(!b)return;vz.room=b.dataset.room;const i=$('#roomInner');i.classList.remove('fade-room');void i.offsetWidth;i.classList.add('fade-room');paintVZ()};
+ $('#vzApply').onclick=e=>{const b=e.target.closest('[data-ap]');if(b){vz.apply=b.dataset.ap;paintVZ()}};
+ $('#vzTiles').onclick=e=>{const b=e.target.closest('[data-id]');if(b){vz.tile=b.dataset.id;paintVZ()}};
+ $('#vzSize').oninput=e=>{vz.size=+e.target.value;paintVZ()};
+ $('#vzLine').oninput=e=>{vz.line=+e.target.value;paintVZ()};
+ $('#vzUpload').onchange=e=>{const f=e.target.files[0];if(!f)return;if(vz.photo)URL.revokeObjectURL(vz.photo);vz.photo=URL.createObjectURL(f);$('#vzLineWrap').hidden=false;$('#vzDemo').hidden=false;paintVZ()};
+ $('#vzDemo').onclick=()=>{vz.photo=null;$('#vzLineWrap').hidden=true;$('#vzDemo').hidden=true;$('#vzUpload').value='';paintVZ()};
+ $('#vzAdd').onclick=()=>addToCart(vz.tile,prod(vz.tile).sizes[0].id,50);
+ $('#vzEnq').onclick=()=>{const p=prod(vz.tile);enquire(`Hello, I like ${p.name} (${p.style}) in the demo room. Please share details and availability.`)};
+ paintVZ();
+}
+
+/* ============ calculator ============ */
+let calcLast=null;
+function initCalc(){
+ fillOpts($('#cSize'),SIZES.map(s=>({v:s.id,t:s.label})));$('#cSize').value='2x2ft';
+ fillOpts($('#cProd'),PRODUCTS.map(p=>({v:p.id,t:`${p.name} · ${inr(p.price)}/sq ft`})));$('#cProd').value=vz.tile;$('#cPrice').value=prod(vz.tile).price;
+ $('#cProd').onchange=()=>{$('#cPrice').value=prod($('#cProd').value).price;runCalc()};
+ $$('#calcForm input,#calcForm select').forEach(el=>el.addEventListener('input',runCalc));
+ $('#cAdd').onclick=()=>{if(!calcLast||!calcLast.tiles){toast('Enter a room size first');return}addToCart($('#cProd').value,calcLast.size.id,Math.ceil(calcLast.coverage/CART_STEP)*CART_STEP)};
+ $('#cEnq').onclick=()=>{const r=calcLast,p=prod($('#cProd').value);if(!r||!r.tiles){toast('Enter a room size first');return}enquire(`Tile calculation: room ${$('#cLen').value} × ${$('#cWid').value} ${$('#cUnit').value}, tile ${r.size.label}, ${r.tiles} tiles${r.boxes?` (${r.boxes} boxes)`:''}, about ${r.coverage.toFixed(0)} sq ft with ${$('#cWaste').value}% wastage. Design: ${p.name}. Please share the best price.`)};
+ runCalc();
+}
+function runCalc(){
+ const g=id=>$('#'+id).value;
+ const r=calcLast=calcTiles({len:g('cLen'),wid:g('cWid'),unit:g('cUnit'),deduct:g('cDed'),sizeId:g('cSize'),waste:g('cWaste'),perBox:+g('cBox'),price:g('cPrice')});
+ const set=(k,v)=>{const el=$('#r-'+k);if(el&&el.textContent!==v){el.textContent=v;el.classList.remove('num-pop');void el.offsetWidth;el.classList.add('num-pop')}};
+ if(!$('#r-tiles')){$('#cRes').innerHTML=`<div class="big"><b id="r-tiles"></b><span>Tiles needed</span></div><div><b id="r-area"></b><span>Room area</span></div><div><b id="r-net"></b><span>Area to tile</span></div><div><b id="r-boxes"></b><span>Boxes</span></div><div><b id="r-cov"></b><span>Tile coverage</span></div><div class="big"><b id="r-cost"></b><span>Estimated cost</span></div>`}
+ const n=x=>x.toLocaleString('en-IN',{maximumFractionDigits:1});
+ set('tiles',r.tiles.toLocaleString('en-IN'));set('area',n(r.area)+' sq ft');set('net',n(r.net)+' sq ft');set('boxes',r.boxes?String(r.boxes):'–');set('cov',n(r.coverage)+' sq ft');set('cost',inr(r.cost));
+ $('#cNote').textContent=`One ${r.size.label} tile covers ${r.tileSqft.toFixed(2)} sq ft. Room area is ${(r.area/10.7639).toFixed(1)} sq m.`;
+ const pv=$('#cPrev'),p=prod($('#cProd').value),ratio=r.rw&&r.rh?Math.min(2.6,Math.max(.4,r.rw/r.rh)):1.2;
+ pv.style.aspectRatio=ratio;pv.style.backgroundImage=bg(p);
+ const sx=r.rw?Math.max(1.2,SIZES.find(s=>s.id===r.size.id).w/r.rw*100):10,sy=r.rh?Math.max(1.2,r.size.h/r.rh*100):10;
+ pv.style.backgroundSize=`${sx*(ratio>0?1:1)}% ${sy}%`;
+}
+
+/* ============ gallery ============ */
+const GAL_FILTERS={All:()=>true,Handmade:t=>['star','quatre','jali','octa'].includes(t),Marble:t=>t==='marble',Wood:t=>['wood','herring'].includes(t),'Stone & brick':t=>['stone','brick'].includes(t),Geometric:t=>['geo','hex','cube','chevron','kitkat'].includes(t),'Mosaic & terrazzo':t=>['mosaic','terrazzo','carpet'].includes(t)};
+let galF='All';
+function initGallery(){
+ $('#galChips').innerHTML=Object.keys(GAL_FILTERS).map(k=>`<button class="chip" type="button" data-f="${k}">${k}</button>`).join('');
+ $('#galChips').onclick=e=>{const b=e.target.closest('[data-f]');if(b){galF=b.dataset.f;renderGallery()}};
+ $('#galGrid').onclick=e=>{const b=e.target.closest('[data-id]');if(!b)return;const p=prod(b.dataset.id);
+  openModal(`<div class="lb"><div class="big" style="background-image:${bg(p)}"></div><h3 style="margin:0">${p.name}</h3><p class="muted" style="margin:0">${p.style} · ${p.type} · ${inr(p.price)} per sq ft</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="lbAdd" type="button">Add 50 sq ft</button><button class="btn sm ghost" id="lbTry" type="button">Try in demo room</button></div></div>`);
+  $('#lbAdd').onclick=()=>{addToCart(p.id,p.sizes[0].id,50);closeModal()};$('#lbTry').onclick=()=>{vz.tile=p.id;closeModal();navigate('demo-room');if(inited.vz)paintVZ()}};
+ renderGallery();
+}
+function renderGallery(){
+ const l=PRODUCTS.filter((p,i)=>GAL_FILTERS[galF](p.art.type));
+ $('#galGrid').innerHTML=l.map((p,i)=>`<button class="card rv" style="--i:${Math.min(i,10)}" data-id="${p.id}"><span class="gi" style="background-image:${bg(p)};aspect-ratio:${[1,1.25,.85,1.1][i%4]}"></span><span class="cap">${p.name}</span></button>`).join('');
+ $$('#galChips .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===galF));
+}
+
+/* ============ 360 panorama ============ */
+const pano={x:0,y:0,auto:true,zoom:1,src:null,w:2400,h:600,custom:false,tile:'p54'};
+function initPano(){
+ fillOpts($('#panoTile'),PRODUCTS.map(p=>({v:p.id,t:p.name})));$('#panoTile').value=pano.tile;
+ const v=$('#panoView');let drag=null;
+ v.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};v.setPointerCapture(e.pointerId)});
+ v.addEventListener('pointermove',e=>{if(!drag)return;pano.x-=e.clientX-drag.x;pano.y+=e.clientY-drag.y;drag={x:e.clientX,y:e.clientY};paintPano()});
+ v.addEventListener('pointerup',()=>drag=null);v.addEventListener('pointercancel',()=>drag=null);
+ v.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){pano.x-=40;paintPano()}if(e.key==='ArrowRight'){pano.x+=40;paintPano()}});
+ $('#panoTile').onchange=e=>{pano.tile=e.target.value;pano.custom=false;buildPano()};
+ $('#panoZoom').oninput=e=>{pano.zoom=e.target.value/100;paintPano()};
+ $('#panoAuto').onclick=()=>{pano.auto=!pano.auto;$('#panoAuto').textContent='Auto turn: '+(pano.auto?'on':'off');$('#panoAuto').setAttribute('aria-pressed',pano.auto)};
+ $('#panoReset').onclick=()=>{pano.custom=false;buildPano()};
+ $('#panoUpload').onchange=e=>{const f=e.target.files[0];if(!f)return;const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{pano.src=u;pano.w=im.naturalWidth;pano.h=im.naturalHeight;pano.custom=true;paintPano()};im.src=u};
+ (function loop(){if(current==='panorama'&&pano.auto&&!reduced){pano.x+=.5;paintPano()}requestAnimationFrame(loop)})();
+}
+function buildPano(){
+ if(pano.custom||!inited.pano)return;
+ const p=prod(pano.tile),im=new Image();
+ im.onload=()=>{
+  const W=2400,H=600,hz=300,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d'),pat=g.createPattern(im,'repeat');
+  let gr=g.createLinearGradient(0,0,0,hz);gr.addColorStop(0,'#2a2018');gr.addColorStop(1,'#6b5a45');g.fillStyle=gr;g.fillRect(0,0,W,hz);
+  g.save();g.scale(.62,.62);g.globalAlpha=.9;g.fillStyle=pat;g.fillRect(0,0,W/.62,hz/.62);g.restore();
+  gr=g.createLinearGradient(0,0,0,hz);gr.addColorStop(0,'rgba(0,0,0,.6)');gr.addColorStop(.6,'rgba(0,0,0,.05)');gr.addColorStop(1,'rgba(0,0,0,.25)');g.fillStyle=gr;g.fillRect(0,0,W,hz);
+  const names=['NORTH','EAST','SOUTH','WEST'];
+  for(let i=0;i<4;i++){const cx=W/4*i+W/8;
+   g.fillStyle='#f6f0e4';g.fillRect(cx-95,70,190,160);const sk=g.createLinearGradient(0,78,0,222);sk.addColorStop(0,'#8ccbff');sk.addColorStop(1,'#e3f3ff');g.fillStyle=sk;g.fillRect(cx-86,79,172,142);g.fillStyle='#f6f0e4';g.fillRect(cx-3,79,6,142);g.fillRect(cx-86,147,172,6);
+   g.fillStyle='rgba(255,255,255,.9)';g.font='700 22px sans-serif';g.textAlign='center';g.fillText(names[i],cx,262)}
+  g.fillStyle='rgba(0,0,0,.35)';g.fillRect(0,hz-8,W,8);
+  const n0=Math.round(W/(100*.0055*1)),fh=H-hz;
+  for(let y=0;y<fh;y++){const d=y+2,sx0=.0055*d,n=Math.max(1,Math.round(W/(100*sx0))),sx=W/(100*n),v=54545/d;g.setTransform(sx,0,0,1,0,hz+y-v);g.fillStyle=pat;g.fillRect(0,v,W/sx,1)}
+  g.setTransform(1,0,0,1,0,0);
+  gr=g.createLinearGradient(0,hz,0,hz+90);gr.addColorStop(0,'rgba(236,226,208,.95)');gr.addColorStop(1,'rgba(236,226,208,0)');g.fillStyle=gr;g.fillRect(0,hz,W,90);
+  gr=g.createLinearGradient(0,hz+90,0,H);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.35)');g.fillStyle=gr;g.fillRect(0,hz+90,W,H-hz-90);
+  pano.src=c.toDataURL('image/jpeg',.85);pano.w=W;pano.h=H;paintPano();
+ };
+ im.src=p.uri;
+}
+function paintPano(){
+ const v=$('#panoView');if(!pano.src)return;
+ const vh=v.clientHeight,sc=vh*pano.zoom/pano.h,bw=pano.w*sc,bh=pano.h*sc,maxY=Math.max(0,(bh-vh)/2);
+ pano.y=Math.max(-maxY,Math.min(maxY,pano.y));
+ v.style.backgroundImage=`url("${pano.src}")`;v.style.backgroundSize=`${bw}px ${bh}px`;v.style.backgroundPosition=`${-pano.x}px ${(vh-bh)/2+pano.y}px`;
+ const deg=((pano.x/bw*360)%360+360)%360;$('#panoDeg').textContent=Math.round(deg)+'°';$('#compass').style.transform=`rotate(${-deg}deg)`;
+}
+addEventListener('resize',()=>{if(current==='panorama')paintPano()});
+
+/* ============ effects: parallax, tilt, magnetic, ripple, cursor ============ */
+let sy=0,tick=false;
+addEventListener('scroll',()=>{sy=scrollY;if(!tick){tick=true;requestAnimationFrame(()=>{root.style.setProperty('--sy',sy);tick=false})}},{passive:true});
+document.addEventListener('pointermove',e=>{
+ root.style.setProperty('--mx',((e.clientX/innerWidth)-.5)*2);root.style.setProperty('--my',((e.clientY/innerHeight)-.5)*2);
+ const t=e.target.closest&&e.target.closest('.tilt');
+ if(t&&e.pointerType==='mouse'){const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;t.style.setProperty('--ry',((x-.5)*10)+'deg');t.style.setProperty('--rx',((.5-y)*10)+'deg');t.style.setProperty('--px',x*100+'%');t.style.setProperty('--py',y*100+'%')}
+ const m=e.target.closest&&e.target.closest('.mag');
+ $$('.mag').forEach(b=>{if(b!==m){b.style.setProperty('--tx','0px');b.style.setProperty('--ty','0px')}});
+ if(m&&e.pointerType==='mouse'){const r=m.getBoundingClientRect();m.style.setProperty('--tx',(e.clientX-r.left-r.width/2)*.22+'px');m.style.setProperty('--ty',(e.clientY-r.top-r.height/2)*.3+'px')}
+},{passive:true});
+document.addEventListener('pointerout',e=>{const t=e.target.closest&&e.target.closest('.tilt');if(t&&!t.contains(e.relatedTarget)){t.style.setProperty('--rx','0deg');t.style.setProperty('--ry','0deg')}});
+document.addEventListener('pointerdown',e=>{
+ const b=e.target.closest('.btn,.chip,.icon');if(!b||b.classList.contains('ghost')&&false)return;
+ if(!b.classList.contains('btn'))return;
+ const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)*2.2,d=document.createElement('span');d.className='ripple';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(d);setTimeout(()=>d.remove(),700)});
+(function cursor(){
+ if(reduced||!matchMedia('(pointer:fine)').matches)return;document.body.classList.add('has-cur');
+ const c=$('#cur'),r=$('#ring');let x=0,y=0,rx=0,ry=0;
+ document.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;c.style.transform=`translate(${x}px,${y}px)`;r.classList.toggle('hot',!!e.target.closest('a,button,select,.card,.chip,input[type=range]'))},{passive:true});
+ document.addEventListener('pointerdown',()=>r.classList.add('down'));document.addEventListener('pointerup',()=>r.classList.remove('down'));
+ (function f(){rx+=(x-rx)*.18;ry+=(y-ry)*.18;r.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(f)})();
+})();
+
+/* ============ init ============ */
+$('#fAddr').textContent=`${SHOP.name}, ${SHOP.address}`;
+$('#fPhone').innerHTML=`<a href="tel:+${SHOP.phone}">${SHOP.phoneShow}</a>`;
+$('#waLink,#waFab');$('#waFab').href=waLink('Hello, I want to know more about your tiles.');
+$('#skip').onclick=()=>endIntro();
+$('#replay').onclick=()=>{scrollTo(0,0);playIntro()};
+$('#copyLogo').onclick=async()=>{const sym=$('#logo-mark'),svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs>${$('defs').innerHTML}</defs>${sym.innerHTML}</svg>`;try{await navigator.clipboard.writeText(svg);toast('Logo SVG copied')}catch(e){toast('Copy blocked here. Use the logo.svg file.')}};
+setVibe(vi);splitTitle();initHome();initShop();saveCart();
+$('#cartN').textContent=cart.length;
+navigate(location.hash.slice(1)||'home',true);
+playIntro();
+</script>
+</body>
+</html>
